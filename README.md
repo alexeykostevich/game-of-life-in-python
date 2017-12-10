@@ -5,7 +5,7 @@
 |                      | Technology                                         |
 | -------------------- |----------------------------------------------------|
 | Language             | [Python 3.6](https://www.python.org/)              |
-| Linter               | [Flake8 3.5.0](http://flake8.pycqa.org/en/latest/) |
+| Linter               | [Flake8 3.5](http://flake8.pycqa.org/en/latest/)   |
 
 ## Development
 ### Prerequisites
