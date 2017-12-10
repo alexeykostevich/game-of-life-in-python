@@ -13,12 +13,14 @@
 
 ### Quickstart
 1. [Creates and activates](https://docs.python.org/3/library/venv.html) a Python virtual environment
+
 ```bash
 $ python3 -m venv .venv
 $ . .venv/bin/activate
 ```
 
 2. Install dependencies
+
 ```bash
 $ pip install -r requirements.txt
 ```
