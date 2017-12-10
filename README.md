@@ -12,9 +12,9 @@
 1. [Python 2.7](https://www.python.org/downloads/)
 
 ### Quickstart
-1. Creates and activates a Python virtual environment
+1. [Creates and activates](https://docs.python.org/3/library/venv.html) a Python virtual environment
 ```bash
-$ virtualenv .venv
+$ python3 -m venv .venv
 $ . .venv/bin/activate
 ```
 
