@@ -1,4 +1,4 @@
-from typing import Callable, Generic, TypeVar, Tuple
+from typing import Callable, Generic, Iterable, TypeVar, Tuple
 
 
 T = TypeVar('T')
@@ -24,10 +24,16 @@ class SparseGrid(Generic[T]):
     def height(self) -> int:
         return self._height
 
-    def __iter__(self) -> Tuple[int, int]:
+    def positions(self) -> Tuple[int, int]:
         for y in range(self.height):
             for x in range(self.width):
                 yield (x, y)
+
+    def rows(self) -> Iterable[Iterable[T]]:
+        yield from ((self[x, y] for x in range(self.width)) for y in range(self.height))
+
+    def columns(self) -> Iterable[Iterable[T]]:
+        yield from ((self[x, y] for y in range(self.height)) for x in range(self.width))
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         x, y = position
@@ -46,11 +52,9 @@ class SparseGrid(Generic[T]):
         self._data[position] = value
 
     def __str__(self) -> str:
-        result = ''
-
-        for y in range(self.height):
-            items = [str(self[x, y]) for x in range(self.width)]
-            result += ' '.join(items) + '\n'
+        result = '\n'.join(
+            ' '.join(str(item).rjust(5) for item in row) for row in self.rows()
+        )
 
         return result
 
@@ -58,7 +62,7 @@ class SparseGrid(Generic[T]):
     def random(cls, width: int, height: int, random: Callable[[int, int], T]):
         grid = cls(width, height)
 
-        for x, y in grid:
+        for x, y in grid.positions():
             grid[x, y] = random(x, y)
 
         return grid
