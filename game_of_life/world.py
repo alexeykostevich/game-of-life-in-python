@@ -1,5 +1,4 @@
 from typing import Tuple
-
 from cell import Cell
 from sparse_grid import InfiniteSparseGrid
 
