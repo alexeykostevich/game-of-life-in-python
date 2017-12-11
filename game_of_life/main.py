@@ -1,7 +1,7 @@
-from grid import Grid
+from sparse_grid import SparseGrid
 from random import randint
 
 
-grid = Grid.random(10, 10, lambda x, y: randint(0, 1))
+grid = SparseGrid.random(10, 10, lambda x, y: randint(0, 1))
 
 print(grid)
