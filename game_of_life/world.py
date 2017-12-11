@@ -1,5 +1,5 @@
 from typing import Tuple
-from random import random
+
 from cell import Cell
 from sparse_grid import InfiniteSparseGrid
 
@@ -39,6 +39,6 @@ class World(object):
         world = cls(width, height)
 
         for x, y in world.positions():
-            world[x, y] = Cell() if random() > .5 else None
+            world[x, y] = Cell.likely()
 
         return world
