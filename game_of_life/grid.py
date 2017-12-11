@@ -12,7 +12,7 @@ class Grid(Generic[T]):
         if height <= 0:
             raise ValueError('height is zero or a negative number.')
 
-        self._data = [[None for x in range(width)] for y in range(height)]
+        self._data = [[None for y in range(height)] for x in range(width)]
 
     @property
     def width(self) -> int:
@@ -23,8 +23,8 @@ class Grid(Generic[T]):
         return len(self._data[0])
 
     def __iter__(self) -> Tuple[int, int]:
-        for x in range(self.width):
-            for y in range(self.height):
+        for y in range(self.height):
+            for x in range(self.width):
                 yield (x, y)
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
@@ -48,7 +48,7 @@ class Grid(Generic[T]):
 
         for y in range(self.height):
             for x in range(self.width):
-                result += '{} '.format(self[x, y])
+                result += '{:5}'.format(self[x, y])
 
             result += '\n'
 
