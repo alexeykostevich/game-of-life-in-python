@@ -13,7 +13,7 @@ class World(ClosedSparseGrid[Cell]):
         super().__init__(width, height)
 
     @classmethod
-    def random(cls, width: int, height: int):
+    def random(cls, width: int, height: int) -> 'World':
         world = cls(width, height)
 
         for x, y in world.positions():

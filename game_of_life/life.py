@@ -29,7 +29,7 @@ class Life(object):
             yield self.world
 
     @classmethod
-    def of_world(cls, width: int, height: int):
+    def of_world(cls, width: int, height: int) -> 'Life':
         world = World.random(width, height)
         life = Life(world)
 

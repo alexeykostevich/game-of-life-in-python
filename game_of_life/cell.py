@@ -6,5 +6,5 @@ class Cell(object):
         return '*'
 
     @classmethod
-    def likely(cls):
+    def likely(cls) -> 'Cell':
         return Cell() if random() > .5 else None
