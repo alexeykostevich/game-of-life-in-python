@@ -1,6 +1,6 @@
-from typing import Tuple
-from cell import Cell
-from sparse_grid import InfiniteSparseGrid
+from typing import Iterable, Tuple
+from .cell import Cell
+from .sparse_grid import InfiniteSparseGrid
 
 
 class World(object):
@@ -20,6 +20,9 @@ class World(object):
     @property
     def height(self) -> int:
         return self._grid.height
+
+    def get_neibours(self, x: int, y: int) -> Iterable[Cell]:
+        return self._grid.get_neibours(x, y)
 
     def positions(self) -> Tuple[int, int]:
         return self._grid.positions()

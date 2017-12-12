@@ -33,15 +33,15 @@ class SparseGrid(Generic[T]):
             for x in range(self.width):
                 yield (x, y)
 
-    def get_neiborghs(self, x: int, y: int) -> Iterable[T]:
-        yield self._data[x - 1, y + 1]
-        yield self._data[x, y + 1]
-        yield self._data[x + 1, y + 1]
-        yield self._data[x + 1, y]
-        yield self._data[x + 1, y - 1]
-        yield self._data[x, y - 1]
-        yield self._data[x - 1, y - 1]
-        yield self._data[x - 1, y]
+    def get_neibours(self, x: int, y: int) -> Iterable[T]:
+        yield self[x - 1, y + 1]
+        yield self[x, y + 1]
+        yield self[x + 1, y + 1]
+        yield self[x + 1, y]
+        yield self[x + 1, y - 1]
+        yield self[x, y - 1]
+        yield self[x - 1, y - 1]
+        yield self[x - 1, y]
 
     def rows(self) -> Iterable[Iterable[T]]:
         yield from ((self[x, y] for x in range(self.width)) for y in range(self.height))
@@ -59,6 +59,9 @@ class SparseGrid(Generic[T]):
         return self._data.get(self._get_position(*position), None)
 
     def __setitem__(self, position: Tuple[int, int], value: T):
+        if value is None:
+            return
+
         self._data[self._get_position(*position)] = value
 
     def __str__(self) -> str:
