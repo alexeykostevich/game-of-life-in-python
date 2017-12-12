@@ -3,6 +3,8 @@ from .sparse_grid import ClosedSparseGrid
 
 
 class World(ClosedSparseGrid[Cell]):
+    """Represents a world in The Game of Life."""
+
     def __init__(self, width: int, height: int):
         if width < 3:
             raise ValueError('width is less than 3.')
@@ -14,6 +16,7 @@ class World(ClosedSparseGrid[Cell]):
 
     @classmethod
     def random(cls, width: int, height: int) -> 'World':
+        """Returns a random world of the specified dimensions."""
         world = cls(width, height)
 
         for x, y in world.positions():

@@ -2,9 +2,13 @@ import random
 
 
 class Cell(object):
+    """Represents a cell in The Game of Life."""
+
     def __str__(self) -> str:
+        """Returns a string representation of the cell."""
         return '*'
 
     @classmethod
     def likely(cls) -> 'Cell':
+        """Randomly returns a new cell or nothing."""
         return random.choice([cls(), None])
