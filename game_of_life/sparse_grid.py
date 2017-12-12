@@ -82,8 +82,10 @@ class SparseGrid(Generic[T]):
 
     def __str__(self) -> str:
         """Returns a string representation of the grid."""
+        def item_str(item): return str(item or ' ').ljust(self._justify)
+
         result = '\n'.join(
-            ' '.join(str(item or ' ').ljust(self._justify) for item in row) for row in self.get_rows()
+            ' '.join(item_str(item) for item in row) for row in self.get_rows()
         )
 
         return result
