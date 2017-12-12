@@ -36,7 +36,7 @@ class Life(object):
     def of_random_world(cls, width: int, height: int) -> 'Life':
         """Returns the life for a random world of the specified dimensions."""
         world = World.random(width, height)
-        life = Life(world)
+        life = cls(world)
 
         return life
 
