@@ -67,8 +67,9 @@ class SparseGrid(Generic[T]):
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
         adjusted_position = self.adjust_position(*position)
+        item = self._data.get(adjusted_position, None)
 
-        return self._data.get(adjusted_position, None)
+        return item
 
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
@@ -93,4 +94,6 @@ class ClosedSparseGrid(SparseGrid[T]):
 
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         """Returns an adjusted position for a closed grid."""
-        return x % self.width, y % self.height
+        adjusted_position = x % self.width, y % self.height
+
+        return adjusted_position
