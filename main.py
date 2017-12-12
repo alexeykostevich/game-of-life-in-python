@@ -7,8 +7,6 @@ def main(screen):
     width = screen.getmaxyx()[1] // 2
     height = screen.getmaxyx()[0]
 
-    screen.clear()
-
     for world in Life.of_world(width, height):
         screen.addstr(0, 0, str(world), curses.color_pair(1))
         screen.refresh()
