@@ -24,7 +24,7 @@ class Life(object):
 
             for x, y in self.world.positions():
                 cell = self.world[x, y]
-                neibours = self.world.get_neibours(x, y)
+                neibours = self.world.get_neighbours_for(x, y)
 
                 world[x, y] = Life.simulate_for(cell, neibours)
 

@@ -38,8 +38,8 @@ class SparseGrid(Generic[T]):
             for x in range(self.width):
                 yield (x, y)
 
-    def get_neibours(self, x: int, y: int) -> Iterable[T]:
-        """Returns a new iterator that can iterate over neigbours around the specified position."""
+    def get_neighbours_for(self, x: int, y: int) -> Iterable[T]:
+        """Returns a new iterator that can iterate over neighbours around the specified position."""
         yield self[x - 1, y + 1]
         yield self[x, y + 1]
         yield self[x + 1, y + 1]
