@@ -1,8 +1,8 @@
 from .cell import Cell
-from .sparse_grid import InfiniteSparseGrid
+from .sparse_grid import ClosedSparseGrid
 
 
-class World(InfiniteSparseGrid[Cell]):
+class World(ClosedSparseGrid[Cell]):
     def __init__(self, width: int, height: int):
         if width <= 3:
             raise ValueError('width is less than 3.')

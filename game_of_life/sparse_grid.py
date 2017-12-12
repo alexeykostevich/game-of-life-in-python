@@ -49,20 +49,24 @@ class SparseGrid(Generic[T]):
     def columns(self) -> Iterable[Iterable[T]]:
         yield from ((self[x, y] for y in range(self.height)) for x in range(self.width))
 
-    def _get_position(self, x: int, y: int) -> Tuple[int, int]:
+    def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         if 0 > x >= self.width or 0 > y >= self.height:
             raise IndexError()
 
         return x, y
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
-        return self._data.get(self._get_position(*position), None)
+        adjusted_position = self.adjust_position(*position)
+
+        return self._data.get(adjusted_position, None)
 
     def __setitem__(self, position: Tuple[int, int], value: T):
         if value is None:
             return
 
-        self._data[self._get_position(*position)] = value
+        adjusted_position = self.adjust_position(*position)
+
+        self._data[adjusted_position] = value
 
     def __str__(self) -> str:
         result = '\n'.join(
@@ -72,6 +76,6 @@ class SparseGrid(Generic[T]):
         return result
 
 
-class InfiniteSparseGrid(SparseGrid[T]):
-    def _get_position(self, x: int, y: int) -> Tuple[int, int]:
+class ClosedSparseGrid(SparseGrid[T]):
+    def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         return x % self.width, y % self.height
