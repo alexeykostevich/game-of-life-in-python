@@ -49,11 +49,11 @@ class SparseGrid(Generic[T]):
         yield self[x - 1, y - 1]
         yield self[x - 1, y]
 
-    def rows(self) -> Iterable[Iterable[T]]:
+    def get_rows(self) -> Iterable[Iterable[T]]:
         """Returns a new iterator that can iterate over grid rows."""
         yield from ((self[x, y] for x in range(self.width)) for y in range(self.height))
 
-    def columns(self) -> Iterable[Iterable[T]]:
+    def get_columns(self) -> Iterable[Iterable[T]]:
         """Returns a new iterator that can iterate over grid columns."""
         yield from ((self[x, y] for y in range(self.height)) for x in range(self.width))
 
@@ -83,7 +83,7 @@ class SparseGrid(Generic[T]):
     def __str__(self) -> str:
         """Returns a string representation of the grid."""
         result = '\n'.join(
-            ' '.join(str(item or ' ').ljust(self._justify) for item in row) for row in self.rows()
+            ' '.join(str(item or ' ').ljust(self._justify) for item in row) for row in self.get_rows()
         )
 
         return result
