@@ -2,7 +2,7 @@
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Python 3.6.
 
 ```python
-# Simulate 'The Game of Life' for a 10 x 10 grid in a Terminal.
+# Simulate 'The Game of Life' for a 10 x 10 grid
 for world in Life.of_random_world(10, 10):
     print(world)
     input('Press Enter to continue...')
@@ -10,6 +10,7 @@ for world in Life.of_random_world(10, 10):
 
 ## Demo
 ```bash
+# Requires a Posix-compatible terminal (Linux or OS X)
 $ python3 main.py
 ```
 
