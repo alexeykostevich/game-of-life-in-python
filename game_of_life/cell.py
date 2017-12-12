@@ -1,4 +1,4 @@
-from random import random
+import random
 
 
 class Cell(object):
@@ -7,4 +7,4 @@ class Cell(object):
 
     @classmethod
     def likely(cls) -> 'Cell':
-        return Cell() if random() > .5 else None
+        return random.choice([cls(), None])
