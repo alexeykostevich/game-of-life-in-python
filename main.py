@@ -1,16 +1,19 @@
 import curses
 import time
-from game_of_life import Life
+from game_of_life import Life, World
 
 
 def main(screen):
-    width = screen.getmaxyx()[1] // 2
-    height = screen.getmaxyx()[0]
+    height, width = screen.getmaxyx()
 
-    for world in Life.of_world(width, height):
-        screen.addstr(0, 0, str(world), curses.color_pair(1))
-        screen.refresh()
+    for world in Life.of_world(width // 2, height):
+        render(world, screen)
         time.sleep(.25)
+
+
+def render(world: World, screen):
+    screen.addstr(0, 0, str(world), curses.color_pair(1))
+    screen.refresh()
 
 
 if __name__ == '__main__':
