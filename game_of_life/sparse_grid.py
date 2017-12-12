@@ -70,7 +70,7 @@ class SparseGrid(Generic[T]):
 
     def __str__(self) -> str:
         result = '\n'.join(
-            ' '.join(str(item or ' ').rjust(self._justify) for item in row) for row in self.rows()
+            ' '.join(str(item or ' ').ljust(self._justify) for item in row) for row in self.rows()
         )
 
         return result
