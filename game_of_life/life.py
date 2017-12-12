@@ -22,7 +22,7 @@ class Life(object):
                 cell = self.world[x, y]
                 neibours = self.world.get_neibours(x, y)
 
-                world[x, y] = Life.next_cell(cell, neibours)
+                world[x, y] = Life.simulate_for(cell, neibours)
 
             self._world = world
 
@@ -36,7 +36,7 @@ class Life(object):
         return life
 
     @staticmethod
-    def next_cell(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
+    def simulate_for(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
         neigbours_alive = sum(neigbour is not None for neigbour in neigbours)
 
         if cell and (neigbours_alive < 2 or 3 < neigbours_alive):
