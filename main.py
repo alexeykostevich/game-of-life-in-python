@@ -8,9 +8,9 @@ def main(screen):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
 
-    height, width = screen.getmaxyx()
+    width, height = screen.getmaxyx()[1] // 2, screen.getmaxyx()[0]
 
-    for world in Life.of_world(width // 2, height):
+    for world in Life.of_random_world(width, height):
         screen.addstr(0, 0, str(world), curses.color_pair(1))
         screen.refresh()
         time.sleep(.25)
