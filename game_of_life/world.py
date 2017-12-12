@@ -4,10 +4,10 @@ from .sparse_grid import ClosedSparseGrid
 
 class World(ClosedSparseGrid[Cell]):
     def __init__(self, width: int, height: int):
-        if width <= 3:
+        if width < 3:
             raise ValueError('width is less than 3.')
 
-        if height <= 3:
+        if height < 3:
             raise ValueError('height is less than 3.')
 
         super().__init__(width, height)
