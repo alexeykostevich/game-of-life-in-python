@@ -23,6 +23,3 @@ if __name__ == '__main__':
         main(screen)
     except KeyboardInterrupt:
         curses.endwin()
-    except Exception as e:
-        curses.endwin()
-        print(e)
