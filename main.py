@@ -1,6 +1,6 @@
 import curses
 import time
-from game_of_life import Life
+from game_of_life import Cell, ClosedWorld, Life
 
 
 def main(screen):
@@ -11,7 +11,10 @@ def main(screen):
 
     width, height = screen.getmaxyx()[1] // 2, screen.getmaxyx()[0]
 
-    for world in Life.of_random_world(width, height):
+    world = ClosedWorld.random(width, height, Cell.likely)
+    life = Life(world)
+
+    for world in life:
         screen.addstr(0, 0, str(world), curses.color_pair(1))
         screen.refresh()
         time.sleep(.25)

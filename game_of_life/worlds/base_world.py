@@ -1,11 +1,14 @@
-from typing import Generic, Iterable, List, TypeVar, Tuple
+from abc import ABCMeta, abstractmethod
+from typing import Callable, Iterable, List, TypeVar, Tuple
+from ..world import World
 
 
 T = TypeVar('T')
 
 
-class SparseGrid(Generic[T]):
-    """Represents a sparse grid that holds memory only for occupied positions."""
+class BaseWorld(World[T]):
+    """Represents a world in The Game of Life."""
+    __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int, justify: int = 1):
         if width <= 0:
@@ -24,21 +27,31 @@ class SparseGrid(Generic[T]):
 
     @property
     def width(self) -> int:
-        """Returns grid width."""
+        """Returns world width."""
         return self._width
 
     @property
     def height(self) -> int:
-        """Returns grid height."""
+        """Returns world height."""
         return self._height
 
+    @abstractmethod
+    def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
+        """Returns the world position."""
+        pass
+
+    @abstractmethod
+    def is_position_in_range(self, x: int, y: int) -> bool:
+        """Indicates whether the specified position is within the world boundaries."""
+        pass
+
     def get_positions(self) -> Tuple[int, int]:
-        """Returns a new iterator that can iterate over grid positions."""
+        """Returns a new iterator that can iterate over world positions."""
         for y in range(self.height):
             for x in range(self.width):
                 yield (x, y)
 
-    def get_neighbours_positions_for(self, x: int, y: int) -> Iterable[Tuple[int, int]]:
+    def get_neighbours_positions_of(self, x: int, y: int) -> Iterable[Tuple[int, int]]:
         """Returns a new iterator that can iterate over neighbours positions around the specified position."""
         positions = [
             (x - 1, y - 1),  # NE
@@ -53,30 +66,13 @@ class SparseGrid(Generic[T]):
 
         return (position for position in positions if self.is_position_in_range(*position))
 
-    def get_neighbours_for(self, x: int, y: int) -> Iterable[T]:
+    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
         """Returns a new iterator that can iterate over neighbours around the specified position."""
-        yield from (self[neighbour_position] for neighbour_position in self.get_neighbours_positions_for(x, y))
+        yield from (self[neighbour_position] for neighbour_position in self.get_neighbours_positions_of(x, y))
 
     def get_rows(self) -> Iterable[Iterable[T]]:
-        """Returns a new iterator that can iterate over grid rows."""
+        """Returns a new iterator that can iterate over world rows."""
         yield from ((self[x, y] for x in range(self.width)) for y in range(self.height))
-
-    def get_columns(self) -> Iterable[Iterable[T]]:
-        """Returns a new iterator that can iterate over grid columns."""
-        yield from ((self[x, y] for y in range(self.height)) for x in range(self.width))
-
-    def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
-        """Returns the grid position."""
-        if (not self.is_position_in_range(x, y)):
-            raise IndexError()
-
-        return x, y
-
-    def is_position_in_range(self, x: int, y: int) -> bool:
-        """Indicates whether the specified position is within the grid bounds."""
-        is_in_range = 0 <= x < self.width and 0 <= y < self.height
-
-        return is_in_range
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
@@ -95,7 +91,7 @@ class SparseGrid(Generic[T]):
         self._data[adjusted_position] = value
 
     def __str__(self) -> str:
-        """Returns a string representation of the grid."""
+        """Returns a string representation of the world."""
         def item_str(item): return str(item or ' ').ljust(self._justify)
 
         result = '\n'.join(
@@ -105,25 +101,21 @@ class SparseGrid(Generic[T]):
         return result
 
     @classmethod
-    def from_data(cls, *kargs: List[T], justify: int = 1) -> 'SparseGrid[T]':
-        """Creates a sparse grid from a 2-deminsiomal list."""
-        grid = cls(len(kargs[0]), len(kargs), justify)
+    def from_data(cls, *kargs: List[T], justify: int = 1):
+        """Creates a world from a 2-deminsiomal list."""
+        world = cls(len(kargs[0]), len(kargs), justify)
 
-        for x, y in grid.get_positions():
-            grid[x, y] = kargs[y][x] if x < len(kargs[y]) else None
+        for x, y in world.get_positions():
+            world[x, y] = kargs[y][x] if x < len(kargs[y]) else None
 
-        return grid
+        return world
 
+    @classmethod
+    def random(cls, width: int, height: int, get_random: Callable[[], T]) -> 'World[T]':
+        """Returns a random world of the specified dimensions."""
+        world = cls(width, height)
 
-class ClosedSparseGrid(SparseGrid[T]):
-    """Represents a sparse grid with connected bounds."""
+        for x, y in world.get_positions():
+            world[x, y] = get_random()
 
-    def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
-        """Returns an adjusted position for a closed grid."""
-        adjusted_position = x % self.width, y % self.height
-
-        return adjusted_position
-
-    def is_position_in_range(self, x: int, y: int) -> bool:
-        """Always returns true since a grid is closed."""
-        return True
+        return world

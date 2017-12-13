@@ -2,8 +2,11 @@
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Python 3.6.
 
 ```python
-# Simulate 'The Game of Life' for a 10 x 10 grid
-for world in Life.of_random_world(10, 10):
+# Simulate 'The Game of Life' in a 10 x 10 world
+world = ClosedWorld.random(10, 10, Cell.likely)
+life = Life(world)
+
+for world in life:
     print(world)
     input('Press Enter to continue...')
 ```

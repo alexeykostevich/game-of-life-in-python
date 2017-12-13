@@ -1,25 +1,40 @@
-from .cell import Cell
-from .sparse_grid import ClosedSparseGrid
+from abc import ABCMeta, abstractproperty, abstractmethod
+from typing import Generic, Iterable, TypeVar, Tuple
 
 
-class World(ClosedSparseGrid[Cell]):
+T = TypeVar('T')
+
+
+class World(Generic[T]):
     """Represents a world in The Game of Life."""
+    __metaclass__ = ABCMeta
 
-    def __init__(self, width: int, height: int):
-        if width < 3:
-            raise ValueError('width is less than 3.')
+    @abstractproperty
+    def width(self) -> int:
+        """Returns world width."""
+        pass
 
-        if height < 3:
-            raise ValueError('height is less than 3.')
+    @abstractproperty
+    def height(self) -> int:
+        """Returns world height."""
+        pass
 
-        super().__init__(width, height)
+    @abstractmethod
+    def get_positions(self) -> Tuple[int, int]:
+        """Returns a new iterator that can iterate over world positions."""
+        pass
 
-    @classmethod
-    def random(cls, width: int, height: int) -> 'World':
-        """Returns a random world of the specified dimensions."""
-        world = cls(width, height)
+    @abstractmethod
+    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
+        """Returns a new iterator that can iterate over neighbours around the specified position."""
+        pass
 
-        for x, y in world.get_positions():
-            world[x, y] = Cell.likely()
+    @abstractmethod
+    def __getitem__(self, position: Tuple[int, int]) -> T:
+        """Returns a value for the specified position using self[x, y]."""
+        pass
 
-        return world
+    @abstractmethod
+    def __setitem__(self, position: Tuple[int, int], value: T):
+        """Sets the value for the specified position using self[x, y]."""
+        pass

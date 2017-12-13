@@ -6,39 +6,32 @@ from .world import World
 class Life(object):
     """Represents The Game of Life."""
 
-    def __init__(self, world: World):
+    def __init__(self, world: World[Cell]):
         if world is None:
             raise ValueError('world does not exist.')
 
         self._world = world
+        self._world_cls = type(world)
 
     @property
-    def world(self) -> World:
+    def world(self) -> World[Cell]:
         """Returns the current state of the world."""
         return self._world
 
-    def __iter__(self) -> World:
+    def __iter__(self) -> World[Cell]:
         """Returns a new iterator that can iterate over world states."""
         while True:
-            world = World(self.world.width, self.world.height)
+            world = self._world_cls(self.world.width, self.world.height)
 
             for x, y in self.world.get_positions():
                 cell = self.world[x, y]
-                neibours = self.world.get_neighbours_for(x, y)
+                neibours = self.world.get_neighbours_of(x, y)
 
                 world[x, y] = Life.simulate_for(cell, neibours)
 
             self._world = world
 
             yield self.world
-
-    @classmethod
-    def of_random_world(cls, width: int, height: int) -> 'Life':
-        """Returns the life for a random world of the specified dimensions."""
-        world = World.random(width, height)
-        life = cls(world)
-
-        return life
 
     @staticmethod
     def simulate_for(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
