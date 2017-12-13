@@ -1,4 +1,4 @@
-from typing import Generic, Iterable, TypeVar, Tuple
+from typing import Generic, Iterable, List, TypeVar, Tuple
 
 
 T = TypeVar('T')
@@ -32,22 +32,30 @@ class SparseGrid(Generic[T]):
         """Returns grid height."""
         return self._height
 
-    def positions(self) -> Tuple[int, int]:
+    def get_positions(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over grid positions."""
         for y in range(self.height):
             for x in range(self.width):
                 yield (x, y)
 
+    def get_neighbours_positions_for(self, x: int, y: int) -> Iterable[Tuple[int, int]]:
+        """Returns a new iterator that can iterate over neighbours positions around the specified position."""
+        positions = [
+            (x - 1, y - 1),  # NE
+            (x, y - 1),      # N
+            (x + 1, y - 1),  # NW
+            (x + 1, y),      # W
+            (x + 1, y + 1),  # SW
+            (x, y + 1),      # S
+            (x - 1, y + 1),  # SE
+            (x - 1, y)       # E
+        ]
+
+        return (position for position in positions if self.is_position_in_range(*position))
+
     def get_neighbours_for(self, x: int, y: int) -> Iterable[T]:
         """Returns a new iterator that can iterate over neighbours around the specified position."""
-        yield self[x - 1, y + 1]
-        yield self[x, y + 1]
-        yield self[x + 1, y + 1]
-        yield self[x + 1, y]
-        yield self[x + 1, y - 1]
-        yield self[x, y - 1]
-        yield self[x - 1, y - 1]
-        yield self[x - 1, y]
+        yield from (self[neighbour_position] for neighbour_position in self.get_neighbours_positions_for(x, y))
 
     def get_rows(self) -> Iterable[Iterable[T]]:
         """Returns a new iterator that can iterate over grid rows."""
@@ -59,10 +67,16 @@ class SparseGrid(Generic[T]):
 
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         """Returns the grid position."""
-        if 0 > x >= self.width or 0 > y >= self.height:
+        if (not self.is_position_in_range(x, y)):
             raise IndexError()
 
         return x, y
+
+    def is_position_in_range(self, x: int, y: int) -> bool:
+        """Indicates whether the specified position is within the grid bounds."""
+        is_in_range = 0 <= x < self.width and 0 <= y < self.height
+
+        return is_in_range
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
@@ -73,10 +87,10 @@ class SparseGrid(Generic[T]):
 
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
+        adjusted_position = self.adjust_position(*position)
+
         if value is None:
             return
-
-        adjusted_position = self.adjust_position(*position)
 
         self._data[adjusted_position] = value
 
@@ -90,12 +104,26 @@ class SparseGrid(Generic[T]):
 
         return result
 
+    @classmethod
+    def from_data(cls, *kargs: List[T], justify: int = 1) -> 'SparseGrid[T]':
+        """Creates a sparse grid from a 2-deminsiomal list."""
+        grid = cls(len(kargs[0]), len(kargs), justify)
+
+        for x, y in grid.get_positions():
+            grid[x, y] = kargs[y][x] if x < len(kargs[y]) else None
+
+        return grid
+
 
 class ClosedSparseGrid(SparseGrid[T]):
-    """Represents a sparse grid with connected borders."""
+    """Represents a sparse grid with connected bounds."""
 
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         """Returns an adjusted position for a closed grid."""
         adjusted_position = x % self.width, y % self.height
 
         return adjusted_position
+
+    def is_position_in_range(self, x: int, y: int) -> bool:
+        """Always returns true since a grid is closed."""
+        return True

@@ -22,7 +22,7 @@ class Life(object):
         while True:
             world = World(self.world.width, self.world.height)
 
-            for x, y in self.world.positions():
+            for x, y in self.world.get_positions():
                 cell = self.world[x, y]
                 neibours = self.world.get_neighbours_for(x, y)
 

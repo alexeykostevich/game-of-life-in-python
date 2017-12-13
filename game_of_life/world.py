@@ -19,7 +19,7 @@ class World(ClosedSparseGrid[Cell]):
         """Returns a random world of the specified dimensions."""
         world = cls(width, height)
 
-        for x, y in world.positions():
+        for x, y in world.get_positions():
             world[x, y] = Cell.likely()
 
         return world
