@@ -1,6 +1,6 @@
 from typing import Iterable
-from .cell import Cell
-from .world import World
+from life.cell import Cell
+from life.world import World
 
 
 class Life(object):

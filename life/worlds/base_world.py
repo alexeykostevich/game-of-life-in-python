@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Iterable, List, TypeVar, Tuple
-from ..world import World
+from life.world import World
 
 
 T = TypeVar('T')

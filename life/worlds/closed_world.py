@@ -1,5 +1,5 @@
 from typing import TypeVar, Tuple
-from .base_world import BaseWorld
+from life.worlds.base_world import BaseWorld
 
 
 T = TypeVar('T')

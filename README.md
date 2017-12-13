@@ -2,6 +2,9 @@
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Python 3.6.
 
 ```python
+from life import Cell, ClosedWorld, Life
+
+
 # Simulate 'The Game of Life' in a 10 x 10 world
 world = ClosedWorld.random(10, 10, Cell.likely)
 life = Life(world)

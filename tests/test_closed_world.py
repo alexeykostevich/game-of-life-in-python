@@ -1,5 +1,5 @@
 import unittest
-from game_of_life import ClosedWorld
+from life import ClosedWorld
 
 
 class ClosedWorldTestCase(unittest.TestCase):

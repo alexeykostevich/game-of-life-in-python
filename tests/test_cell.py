@@ -1,5 +1,5 @@
 import unittest
-from game_of_life import Cell
+from life import Cell
 
 
 class CellTestCase(unittest.TestCase):

@@ -1,6 +1,6 @@
 import curses
 import time
-from game_of_life import Cell, ClosedWorld, Life
+from life import Cell, ClosedWorld, Life
 
 
 def main(screen):
