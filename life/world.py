@@ -38,3 +38,9 @@ class World(Generic[T]):
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
         pass
+
+    @staticmethod
+    @abstractmethod
+    def empty_from(cls, world: 'World[T]') -> 'World[T]':
+        """Creates an empty copy of the specified world."""
+        pass

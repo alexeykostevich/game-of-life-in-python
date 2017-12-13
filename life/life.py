@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Callable, Iterable
 from life.cell import Cell
 from life.world import World
 
@@ -11,7 +11,6 @@ class Life(object):
             raise ValueError('world does not exist.')
 
         self._world = world
-        self._world_cls = type(world)
 
     @property
     def world(self) -> World[Cell]:
@@ -21,7 +20,7 @@ class Life(object):
     def __iter__(self) -> World[Cell]:
         """Returns a new iterator that can iterate over world states."""
         while True:
-            world = self._world_cls(self.world.width, self.world.height)
+            world = self.world.empty_from(self.world)
 
             for x, y in self.world.get_positions():
                 cell = self.world[x, y]

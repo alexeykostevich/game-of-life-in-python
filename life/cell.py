@@ -10,7 +10,7 @@ class Cell(object):
 
     @classmethod
     def likely(cls) -> 'Cell':
-        """Randomly returns a new cell or nothing."""
+        """Randomly creates a new cell or nothing."""
         possible_cell = random.choice([cls(), None])
 
         return possible_cell

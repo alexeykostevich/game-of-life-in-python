@@ -104,7 +104,14 @@ class BaseWorld(World[T]):
         return result
 
     @classmethod
-    def from_data(cls, *kargs: List[T], justify: int = 1):
+    def empty_from(cls, world: World[T]) -> 'World[T]':
+        """Creates an empty copy of the specified world."""
+        world = cls(world.width, world.height)
+
+        return world
+
+    @classmethod
+    def from_data(cls, *kargs: List[T], justify: int = 1) -> 'World[T]':
         """Creates a world from a 2-deminsiomal list."""
         world = cls(len(kargs[0]), len(kargs), justify)
 
@@ -115,7 +122,7 @@ class BaseWorld(World[T]):
 
     @classmethod
     def random(cls, width: int, height: int, get_random: Callable[[], T]) -> 'World[T]':
-        """Returns a random world of the specified dimensions."""
+        """Creates a random world of the specified dimensions."""
         world = cls(width, height)
 
         for x, y in world.get_positions():
