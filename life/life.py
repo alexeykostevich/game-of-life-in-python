@@ -17,14 +17,14 @@ class Life(object):
                 cell = world[x, y]
                 neibours = world.neighbours_of(x, y)
 
-                next_world[x, y] = Life.simulate_for(cell, neibours)
+                next_world[x, y] = Life.next_cell(cell, neibours)
 
             world = next_world
 
             yield next_world
 
     @staticmethod
-    def simulate_for(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
+    def next_cell(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
         """Returns the survivied cell, a regenerated cell or nothing for a new world."""
         neigbours_alive = sum(neigbour is not None for neigbour in neigbours)
 
