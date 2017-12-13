@@ -7,7 +7,10 @@ T = TypeVar('T')
 
 
 class BaseWorld(World[T]):
-    """Represents a world in The Game of Life."""
+    """
+    Represents a base world for 'The Game of Life'.
+    Override 'adjust_position' or 'is_position_in_range' to implement a specific world.
+    """
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int, justify: int = 1):

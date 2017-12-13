@@ -4,7 +4,7 @@ from .world import World
 
 
 class Life(object):
-    """Represents The Game of Life."""
+    """Represents 'The Game of Life'."""
 
     def __init__(self, world: World[Cell]):
         if world is None:

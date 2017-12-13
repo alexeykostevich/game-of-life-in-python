@@ -6,7 +6,7 @@ T = TypeVar('T')
 
 
 class BoundedWorld(BaseWorld[T]):
-    """Represents a world with boundaries."""
+    """Represents a world with boundaries for 'The Game of Life'."""
 
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
         """Returns the world position."""

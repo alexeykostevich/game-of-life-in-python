@@ -6,7 +6,7 @@ T = TypeVar('T')
 
 
 class World(Generic[T]):
-    """Represents a world in The Game of Life."""
+    """Represents a world for 'The Game of Life'."""
     __metaclass__ = ABCMeta
 
     @abstractproperty
