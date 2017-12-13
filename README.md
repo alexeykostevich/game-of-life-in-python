@@ -38,6 +38,13 @@ $ . .venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
+### Unit Tests
+Use [test discovery](https://docs.python.org/3/library/unittest.html#test-discovery) to run all unit tests at once.
+
+```bash
+python -m unittest discover
+```
+
 ### Styleguide
 The project uses [PEP8](https://www.python.org/dev/peps/pep-0008/). [Flake8](http://flake8.pycqa.org/en/latest/) is setup to enforce the rules.
 
