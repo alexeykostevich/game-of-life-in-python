@@ -14,7 +14,7 @@ for world in life:
 ## Demo
 ```bash
 # Requires a Posix-compatible terminal (Linux or OS X)
-$ python3 main.py
+$ python3 demo.py
 ```
 
 ## Technology Stack
