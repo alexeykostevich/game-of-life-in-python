@@ -33,22 +33,6 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         self.assertEqual(list(world.get_positions()), [(0, 0), (1, 0), (0, 1), (1, 1)])
 
-    def test_get_neighbours_positions_of(self):
-        world = BoundedWorld.from_data(
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]
-        )
-
-        positions = world.get_neighbours_positions_of(0, 0)
-        self.assertEqual(list(positions), [(1, 0), (1, 1), (0, 1)])
-
-        positions = world.get_neighbours_positions_of(2, 2)
-        self.assertEqual(list(positions), [(1, 1), (2, 1), (1, 2)])
-
-        positions = world.get_neighbours_positions_of(1, 1)
-        self.assertEqual(list(positions), [(0, 0), (1, 0), (2, 0), (2, 1), (2, 2), (1, 2), (0, 2), (0, 1)])
-
     def test_get_neighbours_of(self):
         world = BoundedWorld.from_data(
             [1, 2, 3],
@@ -64,16 +48,6 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         neighbours = world.get_neighbours_of(1, 1)
         self.assertEqual(list(neighbours), [1, 2, 3, 6, 9, 8, 7, 4])
-
-    def test_get_rows(self):
-        world = BoundedWorld.from_data(
-            [1, 2],
-            [3, None]
-        )
-
-        rows = [list(row) for row in world.get_rows()]
-
-        self.assertEqual(rows, [[1, 2], [3, None]])
 
     def test_adjust_position(self):
         world = BoundedWorld(2, 2)

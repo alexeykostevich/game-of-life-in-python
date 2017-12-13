@@ -13,19 +13,15 @@ class BaseWorld(World[T]):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, width: int, height: int, justify: int = 1):
+    def __init__(self, width: int, height: int):
         if width <= 0:
             raise ValueError('width is zero or a negative number.')
 
         if height <= 0:
             raise ValueError('height is zero or a negative number.')
 
-        if justify < 1:
-            raise ValueError('justify is a negative number.')
-
         self._width = width
         self._height = height
-        self._justify = justify
         self._data = dict()
 
     @property
@@ -50,12 +46,11 @@ class BaseWorld(World[T]):
 
     def get_positions(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over world positions."""
-        for y in range(self.height):
-            for x in range(self.width):
-                yield (x, y)
+        return ((x, y) for y in range(self.height)
+                       for x in range(self.width))
 
-    def get_neighbours_positions_of(self, x: int, y: int) -> Iterable[Tuple[int, int]]:
-        """Returns a new iterator that can iterate over neighbours positions around the specified position."""
+    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
+        """Returns a new iterator that can iterate over neighbours around the specified position."""
         positions = [
             (x - 1, y - 1),  # NE
             (x, y - 1),      # N
@@ -67,15 +62,7 @@ class BaseWorld(World[T]):
             (x - 1, y)       # E
         ]
 
-        return (position for position in positions if self.is_position_in_range(*position))
-
-    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
-        """Returns a new iterator that can iterate over neighbours around the specified position."""
-        yield from (self[neighbour_position] for neighbour_position in self.get_neighbours_positions_of(x, y))
-
-    def get_rows(self) -> Iterable[Iterable[T]]:
-        """Returns a new iterator that can iterate over world rows."""
-        yield from ((self[x, y] for x in range(self.width)) for y in range(self.height))
+        return (self[position] for position in positions if self.is_position_in_range(*position))
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
@@ -95,11 +82,12 @@ class BaseWorld(World[T]):
 
     def __str__(self) -> str:
         """Returns a string representation of the world."""
-        def item_str(item): return str(item or ' ').ljust(self._justify)
+        def to_str(i): return str(i or ' ')
 
-        result = '\n'.join(
-            ' '.join(item_str(item) for item in row) for row in self.get_rows()
-        )
+        rows = ((to_str(self[x, y]) for x in range(self.width))
+                                    for y in range(self.height))
+
+        result = '\n'.join((' '.join(row) for row in rows))
 
         return result
 
@@ -111,9 +99,9 @@ class BaseWorld(World[T]):
         return world
 
     @classmethod
-    def from_data(cls, *kargs: List[T], justify: int = 1) -> 'World[T]':
+    def from_data(cls, *kargs: List[T]) -> 'World[T]':
         """Creates a world from a 2-deminsiomal list."""
-        world = cls(len(kargs[0]), len(kargs), justify)
+        world = cls(len(kargs[0]), len(kargs))
 
         for x, y in world.get_positions():
             world[x, y] = kargs[y][x] if x < len(kargs[y]) else None
