@@ -7,9 +7,8 @@ from life import Cell, ClosedWorld, Life
 
 # Simulate 'The Game of Life' in a 10 x 10 world
 world = ClosedWorld.random(10, 10, Cell.likely)
-life = Life(world)
 
-for world in life:
+for world in Life.originate_from(world):
     print(world)
     input('Press Enter to continue...')
 ```

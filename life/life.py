@@ -1,4 +1,4 @@
-from typing import Callable, Iterable
+from typing import Iterable
 from life.cell import Cell
 from life.world import World
 
@@ -6,31 +6,22 @@ from life.world import World
 class Life(object):
     """Represents 'The Game of Life'."""
 
-    def __init__(self, world: World[Cell]):
-        if world is None:
-            raise ValueError('world does not exist.')
-
-        self._world = world
-
-    @property
-    def world(self) -> World[Cell]:
-        """Returns the current state of the world."""
-        return self._world
-
-    def __iter__(self) -> World[Cell]:
+    @classmethod
+    def originate_from(cls, world: World[Cell]) -> World[Cell]:
         """Returns a new iterator that can iterate over world states."""
+
         while True:
-            world = self.world.empty_from(self.world)
+            next_world = type(world).empty_from(world)
 
-            for x, y in self.world.get_positions():
-                cell = self.world[x, y]
-                neibours = self.world.get_neighbours_of(x, y)
+            for x, y in world.get_positions():
+                cell = world[x, y]
+                neibours = world.get_neighbours_of(x, y)
 
-                world[x, y] = Life.simulate_for(cell, neibours)
+                next_world[x, y] = Life.simulate_for(cell, neibours)
 
-            self._world = world
+            world = next_world
 
-            yield self.world
+            yield next_world
 
     @staticmethod
     def simulate_for(cell: Cell, neigbours: Iterable[Cell]) -> Cell:
