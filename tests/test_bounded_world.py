@@ -151,12 +151,29 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         self.assertMultiLineEqual(str(world), '  3\n2  ')
 
+    def test_empty_from(self):
+        world = BoundedWorld.from_data(
+            [1, 2],
+            [3, None, 5]
+        )
+
+        empty_world = BoundedWorld.empty_from(world)
+
+        self.assertEqual(empty_world.width, world.width)
+        self.assertEqual(empty_world.height, world.height)
+
+        all_empty = all(empty_world[position] is None for position in empty_world.get_positions())
+
+        self.assertTrue(all_empty)
+
     def test_from_data(self):
         world = BoundedWorld.from_data(
             [1, 2],
             [3, None, 5]
         )
 
+        self.assertEqual(world.width, 2)
+        self.assertEqual(world.height, 2)
         self.assertEqual(world[0, 0], 1)
         self.assertEqual(world[1, 0], 2)
         self.assertEqual(world[0, 1], 3)
@@ -164,6 +181,16 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         with self.assertRaises(IndexError):
             world[2, 1]
+
+    def test_random(self):
+        world = BoundedWorld.random(2, 2, lambda: 1)
+
+        self.assertEqual(world.width, 2)
+        self.assertEqual(world.height, 2)
+        self.assertEqual(world[0, 0], 1)
+        self.assertEqual(world[1, 0], 1)
+        self.assertEqual(world[0, 1], 1)
+        self.assertEqual(world[1, 1], 1)
 
 
 if __name__ == '__main__':
