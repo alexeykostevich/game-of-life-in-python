@@ -140,6 +140,31 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         self.assertMultiLineEqual(str(world), '  3\n2  ')
 
+    def test_eq(self):
+        left = BoundedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        right = BoundedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        self.assertEqual(left, right)
+
+        left = BoundedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        right = BoundedWorld.from_data(
+            [1, 3],
+            [2, 4]
+        )
+
+        self.assertNotEqual(left, right)
+
     def test_from_data(self):
         world = BoundedWorld.from_data(
             [1, 2],

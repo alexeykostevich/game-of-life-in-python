@@ -122,6 +122,31 @@ class ClosedWorldTestCase(unittest.TestCase):
 
         self.assertMultiLineEqual(str(world), '  3\n2  ')
 
+    def test_eq(self):
+        left = ClosedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        right = ClosedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        self.assertEqual(left, right)
+
+        left = ClosedWorld.from_data(
+            [1, 3],
+            [2, None]
+        )
+
+        right = ClosedWorld.from_data(
+            [1, 3],
+            [2, 4]
+        )
+
+        self.assertNotEqual(left, right)
+
     def test_from_data(self):
         world = ClosedWorld.from_data(
             [1, 2],

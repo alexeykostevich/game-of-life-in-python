@@ -94,6 +94,12 @@ class BaseWorld(World[T]):
 
         return result
 
+    def __eq__(self, other: 'BaseWorld[T]') -> bool:
+        """Indicates whether the world equals to another world."""
+        eq = self._data.items() == other._data.items()
+
+        return eq
+
     @classmethod
     def from_data(cls, *kargs: List[T]) -> 'World[T]':
         """Creates a world from a 2-deminsiomal list."""
