@@ -7,10 +7,8 @@ T = TypeVar('T')
 
 
 class BaseWorld(World[T]):
-    """
-    Represents a base world for 'The Game of Life'.
-    Override 'adjust_position' or 'is_position_in_range' to implement a specific world.
-    """
+    """Represents a base class for worlds for 'The Game of Life'."""
+
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int):
@@ -44,12 +42,17 @@ class BaseWorld(World[T]):
         """Indicates whether the specified position is within the world boundaries."""
         pass
 
+    @abstractmethod
+    def empty(self) -> 'World[T]':
+        """Returns a new empty world of the same dimensions."""
+        pass
+
     def through(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over world positions."""
         return ((x, y) for y in range(self.height)
                        for x in range(self.width))
 
-    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
+    def neighbours_of(self, x: int, y: int) -> Iterable[T]:
         """Returns a new iterator that can iterate over neighbours around the specified position."""
         positions = [
             (x - 1, y - 1),  # NE
@@ -90,13 +93,6 @@ class BaseWorld(World[T]):
         result = '\n'.join((' '.join(row) for row in rows))
 
         return result
-
-    @classmethod
-    def empty_from(cls, world: World[T]) -> 'World[T]':
-        """Creates an empty copy of the specified world."""
-        world = cls(world.width, world.height)
-
-        return world
 
     @classmethod
     def from_data(cls, *kargs: List[T]) -> 'World[T]':

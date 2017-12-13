@@ -28,25 +28,40 @@ class ClosedWorldTestCase(unittest.TestCase):
 
         self.assertEqual(world.height, 2)
 
+    def test_empty(self):
+        world = ClosedWorld.from_data(
+            [1, 2],
+            [3, None, 5]
+        )
+
+        empty_world = world.empty()
+
+        self.assertEqual(empty_world.width, world.width)
+        self.assertEqual(empty_world.height, world.height)
+
+        all_empty = all(empty_world[position] is None for position in empty_world.through())
+
+        self.assertTrue(all_empty)
+
     def test_through(self):
         world = ClosedWorld(2, 2)
 
         self.assertEqual(list(world.through()), [(0, 0), (1, 0), (0, 1), (1, 1)])
 
-    def test_get_neighbours_of(self):
+    def test_neighbours_of(self):
         world = ClosedWorld.from_data(
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9]
         )
 
-        neighbours = world.get_neighbours_of(0, 0)
+        neighbours = world.neighbours_of(0, 0)
         self.assertEqual(list(neighbours), [9, 7, 8, 2, 5, 4, 6, 3])
 
-        neighbours = world.get_neighbours_of(2, 2)
+        neighbours = world.neighbours_of(2, 2)
         self.assertEqual(list(neighbours), [5, 6, 4, 7, 1, 3, 2, 8])
 
-        neighbours = world.get_neighbours_of(1, 1)
+        neighbours = world.neighbours_of(1, 1)
         self.assertEqual(list(neighbours), [1, 2, 3, 6, 9, 8, 7, 4])
 
     def test_adjust_position(self):
@@ -106,21 +121,6 @@ class ClosedWorldTestCase(unittest.TestCase):
         )
 
         self.assertMultiLineEqual(str(world), '  3\n2  ')
-
-    def test_empty_from(self):
-        world = ClosedWorld.from_data(
-            [1, 2],
-            [3, None, 5]
-        )
-
-        empty_world = ClosedWorld.empty_from(world)
-
-        self.assertEqual(empty_world.width, world.width)
-        self.assertEqual(empty_world.height, world.height)
-
-        all_empty = all(empty_world[position] is None for position in empty_world.through())
-
-        self.assertTrue(all_empty)
 
     def test_from_data(self):
         world = ClosedWorld.from_data(

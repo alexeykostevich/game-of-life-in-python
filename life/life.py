@@ -11,11 +11,11 @@ class Life(object):
         """Returns a new iterator that can iterate over world states."""
 
         while True:
-            next_world = type(world).empty_from(world)
+            next_world = world.empty()
 
             for x, y in world.through():
                 cell = world[x, y]
-                neibours = world.get_neighbours_of(x, y)
+                neibours = world.neighbours_of(x, y)
 
                 next_world[x, y] = Life.simulate_for(cell, neibours)
 

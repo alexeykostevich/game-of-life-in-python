@@ -25,7 +25,12 @@ class World(Generic[T]):
         pass
 
     @abstractmethod
-    def get_neighbours_of(self, x: int, y: int) -> Iterable[T]:
+    def empty(self) -> 'World[T]':
+        """Returns a new empty world of the same dimensions."""
+        pass
+
+    @abstractmethod
+    def neighbours_of(self, x: int, y: int) -> Iterable[T]:
         """Returns a new iterator that can iterate over neighbours around the specified position."""
         pass
 
@@ -37,10 +42,4 @@ class World(Generic[T]):
     @abstractmethod
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def empty_from(cls, world: 'World[T]') -> 'World[T]':
-        """Creates an empty copy of the specified world."""
         pass

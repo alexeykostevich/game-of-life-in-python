@@ -17,3 +17,7 @@ class ClosedWorld(BaseWorld[T]):
     def is_position_in_range(self, x: int, y: int) -> bool:
         """Always returns true since the world is closed."""
         return True
+
+    def empty(self) -> 'BoundedWorld[T]':
+        """Returns a new empty world of the same dimensions."""
+        return ClosedWorld(self.width, self.height)

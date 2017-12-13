@@ -20,3 +20,7 @@ class BoundedWorld(BaseWorld[T]):
         is_in_range = 0 <= x < self.width and 0 <= y < self.height
 
         return is_in_range
+
+    def empty(self) -> 'BoundedWorld[T]':
+        """Returns a new empty world of the same dimensions."""
+        return BoundedWorld(self.width, self.height)
