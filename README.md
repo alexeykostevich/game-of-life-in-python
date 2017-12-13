@@ -42,7 +42,7 @@ $ pip install -r requirements.txt
 Use [test discovery](https://docs.python.org/3/library/unittest.html#test-discovery) to run all unit tests at once.
 
 ```bash
-python -m unittest discover
+$ python -m unittest discover
 ```
 
 ### Styleguide
