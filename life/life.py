@@ -13,7 +13,7 @@ class Life(object):
         while True:
             next_world = type(world).empty_from(world)
 
-            for x, y in world.get_positions():
+            for x, y in world.through():
                 cell = world[x, y]
                 neibours = world.get_neighbours_of(x, y)
 

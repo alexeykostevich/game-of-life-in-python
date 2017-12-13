@@ -28,10 +28,10 @@ class BoundedWorldTestCase(unittest.TestCase):
 
         self.assertEqual(world.height, 2)
 
-    def test_get_positions(self):
+    def test_through(self):
         world = BoundedWorld(2, 2)
 
-        self.assertEqual(list(world.get_positions()), [(0, 0), (1, 0), (0, 1), (1, 1)])
+        self.assertEqual(list(world.through()), [(0, 0), (1, 0), (0, 1), (1, 1)])
 
     def test_get_neighbours_of(self):
         world = BoundedWorld.from_data(
@@ -136,7 +136,7 @@ class BoundedWorldTestCase(unittest.TestCase):
         self.assertEqual(empty_world.width, world.width)
         self.assertEqual(empty_world.height, world.height)
 
-        all_empty = all(empty_world[position] is None for position in empty_world.get_positions())
+        all_empty = all(empty_world[position] is None for position in empty_world.through())
 
         self.assertTrue(all_empty)
 

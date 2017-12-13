@@ -44,7 +44,7 @@ class BaseWorld(World[T]):
         """Indicates whether the specified position is within the world boundaries."""
         pass
 
-    def get_positions(self) -> Tuple[int, int]:
+    def through(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over world positions."""
         return ((x, y) for y in range(self.height)
                        for x in range(self.width))
@@ -103,7 +103,7 @@ class BaseWorld(World[T]):
         """Creates a world from a 2-deminsiomal list."""
         world = cls(len(kargs[0]), len(kargs))
 
-        for x, y in world.get_positions():
+        for x, y in world.through():
             world[x, y] = kargs[y][x] if x < len(kargs[y]) else None
 
         return world
@@ -113,7 +113,7 @@ class BaseWorld(World[T]):
         """Creates a random world of the specified dimensions."""
         world = cls(width, height)
 
-        for x, y in world.get_positions():
+        for x, y in world.through():
             world[x, y] = get_random()
 
         return world

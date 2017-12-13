@@ -20,7 +20,7 @@ class World(Generic[T]):
         pass
 
     @abstractmethod
-    def get_positions(self) -> Tuple[int, int]:
+    def through(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over world positions."""
         pass
 
