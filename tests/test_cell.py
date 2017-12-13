@@ -9,9 +9,13 @@ class CellTestCase(unittest.TestCase):
         self.assertEqual(str(cell), '*')
 
     def test_likely(self):
-        cell = Cell.likely()
+        cells = [Cell.likely() for _ in range(10)]
 
-        self.assertTrue(isinstance(cell, Cell) or cell is None)
+        cells_count = sum(isinstance(cell, Cell) for cell in cells)
+        none_count = sum(cell is None for cell in cells)
+
+        self.assertTrue(0 < cells_count < 10)
+        self.assertTrue(0 < none_count < 10)
 
 
 if __name__ == '__main__':
