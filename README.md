@@ -1,6 +1,8 @@
 # Conway's Game of Life
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Python 3.6.
 
+![Demo](demo.gif)
+
 ```python
 from life import Cell, ClosedWorld, Life
 
@@ -18,7 +20,7 @@ for world in life:
 
 ```bash
 # Simulate a random 'The Game of Life' in a Posix-compatible terminal
-$ python3 demo.py
+$ python3 main.py
 ```
 
 ## Technology Stack

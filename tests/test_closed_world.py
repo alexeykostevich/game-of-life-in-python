@@ -120,7 +120,7 @@ class ClosedWorldTestCase(unittest.TestCase):
             [2, None]
         )
 
-        self.assertMultiLineEqual(str(world), '  3\n2  ')
+        self.assertMultiLineEqual(str(world), ' 3\n2 ')
 
     def test_eq(self):
         left = ClosedWorld.from_data(

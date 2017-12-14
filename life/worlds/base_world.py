@@ -90,7 +90,7 @@ class BaseWorld(World[T]):
         rows = ((to_str(self[x, y]) for x in range(self.width))
                                     for y in range(self.height))
 
-        result = '\n'.join((' '.join(row) for row in rows))
+        result = '\n'.join((''.join(row) for row in rows))
 
         return result
 

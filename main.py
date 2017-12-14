@@ -9,9 +9,9 @@ def main(screen):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
 
-    width, height = screen.getmaxyx()[1] // 2, screen.getmaxyx()[0]
+    height, width,  = screen.getmaxyx()
 
-    world = ClosedWorld.random(width, height, Cell.likely)
+    world = ClosedWorld.random(width - 1, height, Cell.likely)
     life = Life.originate_from(world, Cell)
 
     for world in life:
