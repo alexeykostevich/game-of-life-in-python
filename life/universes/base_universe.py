@@ -1,13 +1,17 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Iterable, List, TypeVar, Tuple
-from life.world import World
+from life.universe import Universe
 
 
 T = TypeVar('T')
 
 
-class BaseWorld(World[T]):
-    """Represents a base class for worlds for 'The Game of Life'."""
+class BaseUniverse(Universe[T]):
+    """
+    Represents a base class for universes for 'The Game of Life'.
+    The base universe is memory-efficient since it represents a sparse grid.
+    So, it holds memory only for occuppied cells.
+    """
 
     __metaclass__ = ABCMeta
 
@@ -24,31 +28,31 @@ class BaseWorld(World[T]):
 
     @property
     def width(self) -> int:
-        """Returns world width."""
+        """Returns universe width."""
         return self._width
 
     @property
     def height(self) -> int:
-        """Returns world height."""
+        """Returns universe height."""
         return self._height
 
     @abstractmethod
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
-        """Returns the world position."""
+        """Returns the universe position."""
         pass
 
     @abstractmethod
     def is_position_in_range(self, x: int, y: int) -> bool:
-        """Indicates whether the specified position is within the world boundaries."""
+        """Indicates whether the specified position is within the universe boundaries."""
         pass
 
     @abstractmethod
-    def empty(self) -> 'World[T]':
-        """Returns a new empty world of the same dimensions."""
+    def empty(self) -> 'Universe[T]':
+        """Returns an empty universe of the same dimensions."""
         pass
 
     def through(self) -> Tuple[int, int]:
-        """Returns a new iterator that can iterate over world positions."""
+        """Returns a new iterator that can iterate over universe positions."""
         return ((x, y) for y in range(self.height)
                        for x in range(self.width))
 
@@ -84,7 +88,7 @@ class BaseWorld(World[T]):
         self._data[adjusted_position] = value
 
     def __str__(self) -> str:
-        """Returns a string representation of the world."""
+        """Returns a string representation of the universe."""
         def to_str(i): return str(i or ' ')
 
         rows = ((to_str(self[x, y]) for x in range(self.width))
@@ -94,28 +98,28 @@ class BaseWorld(World[T]):
 
         return result
 
-    def __eq__(self, other: 'BaseWorld[T]') -> bool:
-        """Indicates whether the world equals to another world."""
+    def __eq__(self, other: 'BaseUniverse[T]') -> bool:
+        """Indicates whether the universe equals to another universe."""
         eq = self._data.items() == other._data.items()
 
         return eq
 
     @classmethod
-    def from_data(cls, *kargs: List[T]) -> 'World[T]':
-        """Creates a world from a 2-deminsiomal list."""
-        world = cls(len(kargs[0]), len(kargs))
+    def from_data(cls, *kargs: List[T]) -> 'Universe[T]':
+        """Creates a universe from a 2-deminsiomal list."""
+        universe = cls(len(kargs[0]), len(kargs))
 
-        for x, y in world.through():
-            world[x, y] = kargs[y][x] if x < len(kargs[y]) else None
+        for x, y in universe.through():
+            universe[x, y] = kargs[y][x] if x < len(kargs[y]) else None
 
-        return world
+        return universe
 
     @classmethod
-    def random(cls, width: int, height: int, get_random: Callable[[], T]) -> 'World[T]':
-        """Creates a random world of the specified dimensions."""
-        world = cls(width, height)
+    def random(cls, width: int, height: int, get_random: Callable[[], T]) -> 'Universe[T]':
+        """Creates a random universe of the specified dimensions."""
+        universe = cls(width, height)
 
-        for x, y in world.through():
-            world[x, y] = get_random()
+        for x, y in universe.through():
+            universe[x, y] = get_random()
 
-        return world
+        return universe

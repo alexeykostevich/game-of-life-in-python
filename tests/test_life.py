@@ -1,13 +1,13 @@
 import unittest
 from typing import List
-from life import BoundedWorld, Life
+from life import ClosedUniverse, Life
 
 
 def neibours(count: int) -> List[bool]:
     return [True] * count + [None] * (8 - count)
 
 
-class BoundedWorldTestCase(unittest.TestCase):
+class LifeTestCase(unittest.TestCase):
     def test_next_cell_remains_dead(self):
         for alive in range(3):
             next_cell = Life.next_cell(None, neibours(alive), lambda: True)
@@ -36,68 +36,68 @@ class BoundedWorldTestCase(unittest.TestCase):
         self.assertTrue(next_cell)
 
     def test_originate_from_loaf(self):
-        original_world = BoundedWorld.from_data(
+        original_universe = ClosedUniverse.from_data(
             [None, True, True, None],
             [True, None, None, True],
             [None, True, None, True],
             [None, None, True, None]
         )
 
-        generation = Life.originate_from(original_world, lambda: True)
-        actual_world = next(generation)
+        generation = Life.originate_from(original_universe, lambda: True)
+        actual_universe = next(generation)
 
-        self.assertEqual(actual_world, original_world)
+        self.assertEqual(actual_universe, original_universe)
 
     def test_originate_from_block(self):
-        original_world = BoundedWorld.from_data(
+        original_universe = ClosedUniverse.from_data(
             [None, None, None, None],
             [None, True, True, None],
             [None, True, True, None],
             [None, None, None, None]
         )
 
-        generation = Life.originate_from(original_world, lambda: True)
-        actual_world = next(generation)
+        generation = Life.originate_from(original_universe, lambda: True)
+        actual_universe = next(generation)
 
-        self.assertEqual(actual_world, original_world)
+        self.assertEqual(actual_universe, original_universe)
 
     def test_originate_from_blinker(self):
-        original_world = BoundedWorld.from_data(
+        original_universe = ClosedUniverse.from_data(
             [None, True, None],
             [None, True, None],
             [None, True, None]
         )
 
-        expected_world = BoundedWorld.from_data(
+        expected_universe = ClosedUniverse.from_data(
             [None, None, None],
             [True, True, True],
             [None, None, None]
         )
 
-        generation = Life.originate_from(original_world, lambda: True)
-        actual_world = next(generation)
+        generation = Life.originate_from(original_universe, lambda: True)
+        actual_universe = next(generation)
 
-        self.assertEqual(actual_world, expected_world)
+        self.assertEqual(actual_universe, expected_universe)
 
     def test_originate_from_toad(self):
-        original_world = BoundedWorld.from_data(
+        original_universe = ClosedUniverse.from_data(
             [None, None, None, None],
             [None, True, True, True],
             [True, True, True, None],
             [None, None, None, None]
         )
 
-        expected_world = BoundedWorld.from_data(
+        expected_universe = ClosedUniverse.from_data(
             [None, None, True, None],
             [True, None, None, True],
             [True, None, None, True],
             [None, True, None, None]
         )
 
-        generation = Life.originate_from(original_world, lambda: True)
-        actual_world = next(generation)
+        generation = Life.originate_from(original_universe, lambda: True)
+        actual_universe = next(generation)
 
-        self.assertEqual(actual_world, expected_world)
+        self.assertEqual(actual_universe, expected_universe)
 
 
 if __name__ == '__main__':

@@ -5,28 +5,28 @@ from typing import Generic, Iterable, TypeVar, Tuple
 T = TypeVar('T')
 
 
-class World(Generic[T]):
-    """Represents a world for 'The Game of Life'."""
+class Universe(Generic[T]):
+    """Represents the universe for 'The Game of Life'."""
     __metaclass__ = ABCMeta
 
     @abstractproperty
     def width(self) -> int:
-        """Returns world width."""
+        """Returns universe width."""
         pass
 
     @abstractproperty
     def height(self) -> int:
-        """Returns world height."""
+        """Returns universe height."""
         pass
 
     @abstractmethod
     def through(self) -> Tuple[int, int]:
-        """Returns a new iterator that can iterate over world positions."""
+        """Returns a new iterator that can iterate over the universe."""
         pass
 
     @abstractmethod
-    def empty(self) -> 'World[T]':
-        """Returns a new empty world of the same dimensions."""
+    def empty(self) -> 'Universe[T]':
+        """Returns a new empty universe of the same dimensions."""
         pass
 
     @abstractmethod
