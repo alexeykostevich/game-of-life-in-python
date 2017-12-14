@@ -12,8 +12,9 @@ def main(screen):
     width, height = screen.getmaxyx()[1] // 2, screen.getmaxyx()[0]
 
     world = ClosedWorld.random(width, height, Cell.likely)
+    life = Life.originate_from(world, Cell)
 
-    for world in Life.originate_from(world):
+    for world in life:
         screen.addstr(0, 0, str(world), curses.color_pair(1))
         screen.refresh()
         time.sleep(.25)

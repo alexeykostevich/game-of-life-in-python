@@ -7,15 +7,17 @@ from life import Cell, ClosedWorld, Life
 
 # Simulate 'The Game of Life' in a 10 x 10 world
 world = ClosedWorld.random(10, 10, Cell.likely)
+life = Life.originate_from(world, Cell)
 
-for world in Life.originate_from(world):
+for world in life:
     print(world)
     input('Press Enter to continue...')
 ```
 
 ## Demo
+
 ```bash
-# Requires a Posix-compatible terminal (Linux or OS X)
+# Simulate a random 'The Game of Life' in a Posix-compatible terminal
 $ python3 demo.py
 ```
 
