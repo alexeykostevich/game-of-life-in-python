@@ -1,29 +1,33 @@
 from typing import Any, Callable, Iterable
-from life.world import World
+from life.universe import Universe
 
 
 class Life(object):
-    """Represents 'The Game of Life'."""
+    """
+    Represents life of 'The Game of Life'.
+    The life can use any universe-like object with cells of any type.
+    Any value other than 'None' is considered as alive cell.
+    """
 
     @classmethod
-    def originate_from(cls, world: World, regenerate: Callable[[], Any]) -> World:
-        """Returns a new iterator that can iterate over world states."""
+    def originate_from(cls, universe: Universe[Any], regenerate: Callable[[], Any]) -> Universe[Any]:
+        """Returns a new iterator that can iterate over universe states."""
         while True:
-            next_world = world.empty()
+            next_universe = universe.empty()
 
-            for x, y in world.through():
-                cell = world[x, y]
-                neibours = world.neighbours_of(x, y)
+            for x, y in universe.through():
+                cell = universe[x, y]
+                neibours = universe.neighbours_of(x, y)
 
-                next_world[x, y] = Life.next_cell(cell, neibours, regenerate)
+                next_universe[x, y] = Life.next_cell(cell, neibours, regenerate)
 
-            world = next_world
+            universe = next_universe
 
-            yield next_world
+            yield next_universe
 
     @staticmethod
-    def next_cell(cell, neigbours: Iterable, regenerate: Callable[[], Any]) -> Any:
-        """Returns the survivied cell, a regenerated cell or nothing for the next generation."""
+    def next_cell(cell, neigbours: Iterable[Any], regenerate: Callable[[], Any]) -> Any:
+        """Returns the survivied cell, a regenerated cell or none for the next generation."""
         neigbours_alive = sum(neigbour is not None for neigbour in neigbours)
 
         if cell and (neigbours_alive < 2 or 3 < neigbours_alive):

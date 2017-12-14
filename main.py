@@ -1,6 +1,6 @@
 import curses
 import time
-from life import Cell, ClosedWorld, Life
+from life import Cell, Life, WrappedUniverse
 
 
 def main(screen):
@@ -11,11 +11,11 @@ def main(screen):
 
     height, width,  = screen.getmaxyx()
 
-    world = ClosedWorld.random(width - 1, height, Cell.likely)
-    life = Life.originate_from(world, Cell)
+    universe = WrappedUniverse.random(width - 1, height, Cell.likely)
+    life = Life.originate_from(universe, Cell)
 
-    for world in life:
-        screen.addstr(0, 0, str(world), curses.color_pair(1))
+    for universe in life:
+        screen.addstr(0, 0, str(universe), curses.color_pair(1))
         screen.refresh()
         time.sleep(.25)
 

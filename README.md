@@ -4,17 +4,17 @@
 ![Demo](demo.gif)
 
 ```python
-from life import Cell, ClosedWorld, Life
+from life import Cell, Life, WrappedUniverse
 
 
-# Create a random 10 x 10 closed world
-world = ClosedWorld.random(10, 10, Cell.likely)
-# Get a world iterator (actually, generator) from life
-life = Life.originate_from(world, Cell)
+# Create a random wrapped universe of 10 x 10
+universe = WrappedUniverse.random(10, 10, Cell.likely)
+# Get a universe iterator (actually, generator) from life
+life = Life.originate_from(universe, Cell)
 
-# Iterate through life and print the world on each step
-for world in life:
-    print(world)
+# Iterate through life and print the universe on each step
+for universe in life:
+    print(universe)
     input('Press Enter to continue...')
 ```
 
