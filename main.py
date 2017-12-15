@@ -12,7 +12,7 @@ def main(screen):
     height, width = screen.getmaxyx()
 
     universe = WrappedUniverse.random(width - 1, height, Cell.likely)
-    life = originate_from(universe, Cell)
+    life = originate_from(universe, regenerate=Cell)
 
     for universe in life:
         screen.addstr(0, 0, str(universe), curses.color_pair(1))
