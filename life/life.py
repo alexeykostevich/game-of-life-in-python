@@ -33,7 +33,7 @@ def live(cell: Any, neigbours: Iterable[Any], regenerate: Callable[[], Any]) -> 
     """
     neigbours_alive = sum(neigbour is not None for neigbour in neigbours)
 
-    if cell and (neigbours_alive < 2 or 3 < neigbours_alive):
+    if cell is not None and (neigbours_alive < 2 or 3 < neigbours_alive):
         return None
 
     if cell is None and neigbours_alive == 3:

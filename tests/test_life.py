@@ -3,12 +3,12 @@ from typing import List
 from life import ClosedUniverse, live, originate_from
 
 
-def neibours(count: int) -> List[bool]:
+def neibours(count: int, cell = True) -> List[bool]:
     return [True] * count + [None] * (8 - count)
 
 
 class LifeTestCase(unittest.TestCase):
-    def test_live_remains_dead(self):
+    def test_live_cell_remains_dead(self):
         for alive in range(3):
             next_cell = live(None, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
@@ -17,12 +17,12 @@ class LifeTestCase(unittest.TestCase):
             next_cell = live(None, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
-    def test_live_remains_alive(self):
+    def test_live_cell_survives(self):
         for alive in range(2, 3):
-            next_cell = live(True, neibours(alive), lambda: True)
-            self.assertTrue(next_cell)
+            next_cell = live(1, neibours(alive, 1), lambda: 2)
+            self.assertEqual(next_cell, 1)
 
-    def test_live_dies(self):
+    def test_live_cell_dies(self):
         for alive in range(2):
             next_cell = live(True, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
@@ -31,7 +31,7 @@ class LifeTestCase(unittest.TestCase):
             next_cell = live(True, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
-    def test_live_regenerates(self):
+    def test_live_cell_regenerates(self):
         next_cell = live(None, neibours(3), lambda: True)
         self.assertTrue(next_cell)
 
