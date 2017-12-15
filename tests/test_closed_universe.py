@@ -138,7 +138,7 @@ class ClosedUniverseTestCase(unittest.TestCase):
             [2, None]
         )
 
-        self.assertMultiLineEqual(str(universe), ' 3\n2 ')
+        self.assertMultiLineEqual(str(universe), '  3\n2  ')
 
     def test_eq(self):
         left = ClosedUniverse.from_data(
