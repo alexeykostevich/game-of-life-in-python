@@ -4,13 +4,13 @@
 ![Demo](demo.gif)
 
 ```python
-from life import Cell, Life, WrappedUniverse
+from life import Cell, originate_from, WrappedUniverse
 
 
 # Create a random wrapped universe of 10 x 10
 universe = WrappedUniverse.random(10, 10, Cell.likely)
-# Get a universe iterator (actually, generator) from life
-life = Life.originate_from(universe, Cell)
+# Get a universe iterator (actually, a generator iterator)
+life = originate_from(universe, Cell)
 
 # Iterate through life and print the universe on each step
 for universe in life:

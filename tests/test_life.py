@@ -1,6 +1,6 @@
 import unittest
 from typing import List
-from life import ClosedUniverse, Life
+from life import ClosedUniverse, live, originate_from
 
 
 def neibours(count: int) -> List[bool]:
@@ -8,31 +8,31 @@ def neibours(count: int) -> List[bool]:
 
 
 class LifeTestCase(unittest.TestCase):
-    def test_next_cell_remains_dead(self):
+    def test_live_remains_dead(self):
         for alive in range(3):
-            next_cell = Life.next_cell(None, neibours(alive), lambda: True)
+            next_cell = live(None, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
         for neiboirs_exist in range(4, 8):
-            next_cell = Life.next_cell(None, neibours(alive), lambda: True)
+            next_cell = live(None, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
-    def test_next_cell_remains_alive(self):
+    def test_live_remains_alive(self):
         for alive in range(2, 3):
-            next_cell = Life.next_cell(True, neibours(alive), lambda: True)
+            next_cell = live(True, neibours(alive), lambda: True)
             self.assertTrue(next_cell)
 
-    def test_next_cell_dies(self):
+    def test_live_dies(self):
         for alive in range(2):
-            next_cell = Life.next_cell(True, neibours(alive), lambda: True)
+            next_cell = live(True, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
         for alive in range(4, 9):
-            next_cell = Life.next_cell(True, neibours(alive), lambda: True)
+            next_cell = live(True, neibours(alive), lambda: True)
             self.assertIsNone(next_cell)
 
-    def test_next_cell_regenerates(self):
-        next_cell = Life.next_cell(None, neibours(3), lambda: True)
+    def test_live_regenerates(self):
+        next_cell = live(None, neibours(3), lambda: True)
         self.assertTrue(next_cell)
 
     def test_originate_from_loaf(self):
@@ -43,7 +43,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, True, None]
         )
 
-        generation = Life.originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: True)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, original_universe)
@@ -56,7 +56,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, None, None]
         )
 
-        generation = Life.originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: True)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, original_universe)
@@ -74,7 +74,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, None]
         )
 
-        generation = Life.originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: True)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, expected_universe)
@@ -94,7 +94,7 @@ class LifeTestCase(unittest.TestCase):
             [None, True, None, None]
         )
 
-        generation = Life.originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: True)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, expected_universe)
