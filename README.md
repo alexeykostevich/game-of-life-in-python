@@ -24,7 +24,7 @@ for universe in life:
 from life import originate_from, WrappedUniverse
 
 
-with open('python.txt') as file:
+with open('universe.txt') as file:
     # Create a universe from the file
     universe = WrappedUniverse.from_data(
         [[char for char in line] for line in file],
