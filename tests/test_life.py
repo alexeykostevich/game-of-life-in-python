@@ -3,7 +3,7 @@ from typing import List
 from life import ClosedUniverse, live, originate_from
 
 
-def neibours(count: int, cell = True) -> List[bool]:
+def neibours(count: int) -> List[bool]:
     return [True] * count + [None] * (8 - count)
 
 
@@ -19,8 +19,8 @@ class LifeTestCase(unittest.TestCase):
 
     def test_live_cell_survives(self):
         for alive in range(2, 3):
-            next_cell = live(1, neibours(alive, 1), lambda: 2)
-            self.assertEqual(next_cell, 1)
+            next_cell = live(True, neibours(alive), lambda: 'Regenerated')
+            self.assertTrue(next_cell)
 
     def test_live_cell_dies(self):
         for alive in range(2):
@@ -43,7 +43,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, True, None]
         )
 
-        generation = originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: 1)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, original_universe)
@@ -56,7 +56,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, None, None]
         )
 
-        generation = originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: 1)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, original_universe)
@@ -74,7 +74,7 @@ class LifeTestCase(unittest.TestCase):
             [None, None, None]
         )
 
-        generation = originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: 1)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, expected_universe)
@@ -94,7 +94,7 @@ class LifeTestCase(unittest.TestCase):
             [None, True, None, None]
         )
 
-        generation = originate_from(original_universe, lambda: True)
+        generation = originate_from(original_universe, lambda: 1)
         actual_universe = next(generation)
 
         self.assertEqual(actual_universe, expected_universe)
