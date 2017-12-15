@@ -29,10 +29,10 @@ class ClosedUniverseTestCase(unittest.TestCase):
         self.assertEqual(universe.height, 2)
 
     def test_empty(self):
-        universe = ClosedUniverse.from_data(
+        universe = ClosedUniverse.from_data([
             [1, 2],
-            [3, None, 5]
-        )
+            [3, None]
+        ])
 
         empty_universe = universe.empty()
 
@@ -49,11 +49,11 @@ class ClosedUniverseTestCase(unittest.TestCase):
         self.assertEqual(list(universe.through()), [(0, 0), (1, 0), (0, 1), (1, 1)])
 
     def test_neighbours_of(self):
-        universe = ClosedUniverse.from_data(
+        universe = ClosedUniverse.from_data([
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9]
-        )
+        ])
 
         neighbours = universe.neighbours_of(0, 0)
         self.assertEqual(list(neighbours), [2, 5, 4])
@@ -91,10 +91,10 @@ class ClosedUniverseTestCase(unittest.TestCase):
         self.assertTrue(universe.is_position_in_range(0, 0))
 
     def test_get_item(self):
-        universe = ClosedUniverse.from_data(
+        universe = ClosedUniverse.from_data([
             [1, 3],
             [2, None]
-        )
+        ])
 
         self.assertEqual(universe[0, 0], 1)
         self.assertEqual(universe[1, 1], None)
@@ -133,53 +133,64 @@ class ClosedUniverseTestCase(unittest.TestCase):
             universe[0, 2] = 6
 
     def test_str(self):
-        universe = ClosedUniverse.from_data(
+        universe = ClosedUniverse.from_data([
             [None, 3],
             [2, None]
-        )
+        ])
 
-        self.assertMultiLineEqual(str(universe), ' 3\n2 ')
+        self.assertMultiLineEqual(str(universe), '  3\n2  ')
 
     def test_eq(self):
-        left = ClosedUniverse.from_data(
+        left = ClosedUniverse.from_data([
             [1, 3],
             [2, None]
-        )
+        ])
 
-        right = ClosedUniverse.from_data(
+        right = ClosedUniverse.from_data([
             [1, 3],
             [2, None]
-        )
+        ])
 
         self.assertEqual(left, right)
 
-        left = ClosedUniverse.from_data(
+        left = ClosedUniverse.from_data([
             [1, 3],
             [2, None]
-        )
+        ])
 
-        right = ClosedUniverse.from_data(
+        right = ClosedUniverse.from_data([
             [1, 3],
             [2, 4]
-        )
+        ])
 
         self.assertNotEqual(left, right)
 
     def test_from_data(self):
-        universe = ClosedUniverse.from_data(
-            [1, 2],
-            [3, None, 5]
-        )
+        universe = ClosedUniverse.from_data([
+            [0, 1],
+            [2, 3, 4]
+        ])
 
         self.assertEqual(universe.width, 2)
         self.assertEqual(universe.height, 2)
-        self.assertEqual(universe[0, 0], 1)
-        self.assertEqual(universe[1, 0], 2)
-        self.assertEqual(universe[0, 1], 3)
-        self.assertEqual(universe[1, 1], None)
 
-        with self.assertRaises(IndexError):
-            universe[2, 1]
+        self.assertIsNone(universe[0, 0])
+        self.assertEqual(universe[1, 0], 1)
+        self.assertEqual(universe[0, 1], 2)
+        self.assertEqual(universe[1, 1], 3)
+
+        universe = ClosedUniverse.from_data([
+            [0, '*'],
+            [2, '*', '*']
+        ], lambda cell: cell == '*')
+
+        self.assertEqual(universe.width, 2)
+        self.assertEqual(universe.height, 2)
+
+        self.assertIsNone(universe[0, 0])
+        self.assertEqual(universe[1, 0], '*')
+        self.assertIsNone(universe[0, 1])
+        self.assertEqual(universe[1, 1], '*')
 
     def test_random(self):
         universe = ClosedUniverse.random(2, 2, lambda: 1)

@@ -3,14 +3,36 @@
 
 ![Demo](demo.gif)
 
+**Simulate for a random world:**
 ```python
-from life import Cell, Life, WrappedUniverse
+from life import Cell, originate_from, WrappedUniverse
 
 
 # Create a random wrapped universe of 10 x 10
 universe = WrappedUniverse.random(10, 10, Cell.likely)
-# Get a universe iterator (actually, generator) from life
-life = Life.originate_from(universe, Cell)
+# Get a universe generator iterator
+life = originate_from(universe, regenerate=Cell)
+
+# Iterate through life and print the universe on each step
+for universe in life:
+    print(universe)
+    input('Press Enter to continue...')
+```
+
+**Simulate for a world from [ASCII art](https://www.ascii-code.com/ascii-art/):**
+```python
+from life import originate_from, WrappedUniverse
+
+
+with open('universe.txt') as file:
+    # Create a universe from the file
+    universe = WrappedUniverse.from_data(
+        [[char for char in line] for line in file],
+        lambda cell: not cell.isspace()
+    )
+
+# Get a universe generator iterator
+life = originate_from(universe, regenerate=lambda: '*')
 
 # Iterate through life and print the universe on each step
 for universe in life:

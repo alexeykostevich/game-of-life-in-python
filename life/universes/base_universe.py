@@ -94,7 +94,7 @@ class BaseUniverse(Universe[T]):
         rows = ((to_str(self[x, y]) for x in range(self.width))
                                     for y in range(self.height))
 
-        result = '\n'.join((''.join(row) for row in rows))
+        result = '\n'.join((' '.join(row) for row in rows))
 
         return result
 
@@ -105,12 +105,17 @@ class BaseUniverse(Universe[T]):
         return eq
 
     @classmethod
-    def from_data(cls, *kargs: List[T]) -> 'Universe[T]':
-        """Creates a universe from a 2-deminsiomal list."""
-        universe = cls(len(kargs[0]), len(kargs))
+    def from_data(cls, data: List[List[T]], is_cell: Callable[[T], bool]=lambda cell: cell) -> 'Universe[T]':
+        """
+        Creates a universe from a 2-deminsiomal list.
+        By default, create cells only for values which boolean is True.
+        """
+        min_row = min(data, key=lambda row: len(row))
+
+        universe = cls(len(min_row), len(data))
 
         for x, y in universe.through():
-            universe[x, y] = kargs[y][x] if x < len(kargs[y]) else None
+            universe[x, y] = data[y][x] if is_cell(data[y][x]) else None
 
         return universe
 
