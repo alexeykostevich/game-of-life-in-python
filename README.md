@@ -3,7 +3,7 @@
 
 ![Demo](demo.gif)
 
-Simulate for a random world:
+**Simulate for a random world:**
 ```python
 from life import Cell, originate_from, WrappedUniverse
 
@@ -19,7 +19,7 @@ for universe in life:
     input('Press Enter to continue...')
 ```
 
-Simulate for a world from [ASCII art](https://www.ascii-code.com/ascii-art/):
+**Simulate for a world from [ASCII art](https://www.ascii-code.com/ascii-art/):**
 ```python
 from life import originate_from, WrappedUniverse
 
