@@ -105,12 +105,17 @@ class BaseUniverse(Universe[T]):
         return eq
 
     @classmethod
-    def from_data(cls, *kargs: List[T]) -> 'Universe[T]':
-        """Creates a universe from a 2-deminsiomal list."""
-        universe = cls(len(kargs[0]), len(kargs))
+    def from_data(cls, data: List[List[T]], is_cell: Callable[[T], bool]=lambda cell: cell) -> 'Universe[T]':
+        """
+        Creates a universe from a 2-deminsiomal list.
+        By default, consider a value as a cell of if its boolean is True.
+        """
+        min_row = min(data, key=lambda row: len(row))
+
+        universe = cls(len(min_row), len(data))
 
         for x, y in universe.through():
-            universe[x, y] = kargs[y][x] if x < len(kargs[y]) else None
+            universe[x, y] = data[y][x] if is_cell(data[y][x]) else None
 
         return universe
 

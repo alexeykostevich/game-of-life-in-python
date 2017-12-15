@@ -1,5 +1,4 @@
 import curses
-import math
 import time
 from life import Cell, originate_from, WrappedUniverse
 
@@ -9,9 +8,8 @@ def main(screen):
     curses.curs_set(0)
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
-    screen_height, screen_width = screen.getmaxyx()
 
-    width, height = math.ceil(screen_width / 2), screen_height
+    height, width = screen.getmaxyx()[0], screen.getmaxyx()[1] // 2
 
     universe = WrappedUniverse.random(width, height, Cell.likely)
     life = originate_from(universe, regenerate=Cell)
