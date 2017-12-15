@@ -5,8 +5,7 @@ from life.universe import Universe
 def originate_from(universe: Universe[Any], regenerate: Callable[[], Any]) -> Generator[Universe[Any], None, None]:
     """
     Returns a generator iterator that can be used to iterate through universe states.
-    Any universe-like object with cells of any type can be passed.
-    Cell values other than 'None' are considered as alive.
+    The function can handle any universe-like object of any cells. Any cell except of 'None' is considered as alive.
     """
     while True:
         next_universe = universe.empty()
@@ -25,11 +24,8 @@ def originate_from(universe: Universe[Any], regenerate: Callable[[], Any]) -> Ge
 def live(cell: Any, neigbours: Iterable[Any], regenerate: Callable[[], Any]) -> Any:
     """
     Implements the logic of 'The Game of Life'.
-    Cell values other than 'None' are considered as alive.
-    Returns
-    - the existing cell if survives
-    - a new cell if regenerates
-    - 'None' if dies
+    Any cell except of 'None' is considered as alive.
+    Returns the existing cell if it survives, a new cell if it regenerates or 'None' if if dies.
     """
     neigbours_alive = sum(neigbour is not None for neigbour in neigbours)
 

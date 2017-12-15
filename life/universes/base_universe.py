@@ -108,7 +108,7 @@ class BaseUniverse(Universe[T]):
     def from_data(cls, data: List[List[T]], is_cell: Callable[[T], bool]=lambda cell: cell) -> 'Universe[T]':
         """
         Creates a universe from a 2-deminsiomal list.
-        By default, consider a value as a cell of if its boolean is True.
+        By default, create cells only for values which boolean is True.
         """
         min_row = min(data, key=lambda row: len(row))
 
