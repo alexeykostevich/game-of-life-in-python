@@ -26,10 +26,7 @@ from life import originate_from, WrappedUniverse
 
 with open('universe.txt') as file:
     # Create a universe from the file
-    universe = WrappedUniverse.from_data(
-        [[char for char in line] for line in file],
-        lambda cell: not cell.isspace()
-    )
+    universe = WrappedUniverse.from_data(file.readlines(), is_cell=lambda s: not s.isspace())
 
 # Get a universe generator iterator
 life = originate_from(universe, regenerate=lambda: '*')
