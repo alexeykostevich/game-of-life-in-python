@@ -110,7 +110,7 @@ class BaseUniverse(Universe[T]):
         Creates a universe from a 2-deminsiomal list.
         By default, create cells only for values which boolean is True.
         """
-        min_row = min(data, key=lambda row: len(row))
+        min_row = min(data, default=[], key=len)
 
         universe = cls(len(min_row), len(data))
 

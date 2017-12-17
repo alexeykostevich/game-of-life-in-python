@@ -192,6 +192,12 @@ class ClosedUniverseTestCase(unittest.TestCase):
         self.assertIsNone(universe[0, 1])
         self.assertEqual(universe[1, 1], '*')
 
+        with self.assertRaises(ValueError):
+            universe = ClosedUniverse.from_data([])
+
+        with self.assertRaises(ValueError):
+            universe = ClosedUniverse.from_data([[]])
+
     def test_random(self):
         universe = ClosedUniverse.random(2, 2, lambda: 1)
 
