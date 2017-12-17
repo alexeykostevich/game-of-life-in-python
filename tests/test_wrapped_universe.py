@@ -174,6 +174,12 @@ class WrappedUniverseTestCase(unittest.TestCase):
         self.assertIsNone(universe[0, 1])
         self.assertEqual(universe[1, 1], '*')
 
+        with self.assertRaises(ValueError):
+            universe = WrappedUniverse.from_data([])
+
+        with self.assertRaises(ValueError):
+            universe = WrappedUniverse.from_data([[]])
+
     def test_random(self):
         universe = WrappedUniverse.random(2, 2, lambda: 1)
 
