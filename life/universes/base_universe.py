@@ -83,6 +83,7 @@ class BaseUniverse(Universe[T]):
         adjusted_position = self.adjust_position(*position)
 
         if value is None:
+            self._data.pop(adjusted_position, None)
             return
 
         self._data[adjusted_position] = value
