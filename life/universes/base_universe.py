@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 
 class BaseUniverse(Universe[T]):
-    """Represents a base class for universes for 'The Game of Life'."""
+    """Represents a base class for universes of 'The Game of Life'."""
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int):

@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 class ClosedUniverse(BaseUniverse[T]):
     """
-    Represents the closed universe for 'The Game of Life'.
+    Represents the closed universe of 'The Game of Life'.
     The universe has edges beyond which no cells can exist.
     """
 

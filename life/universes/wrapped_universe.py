@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 class WrappedUniverse(BaseUniverse[T]):
     """
-    Represents the wrapped universe for 'The Game of Life'.
+    Represents the wrapped universe of 'The Game of Life'.
     The edges of the universe wrap around, so that the top is connected to the bottom,
     and the right is connected to the left.
     """

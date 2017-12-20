@@ -2,7 +2,7 @@ import random
 
 
 class Cell(object):
-    """Represents a cell for 'The Game of Life'."""
+    """Represents a cell of 'The Game of Life'."""
 
     def __str__(self) -> str:
         """Returns a string representation of the cell."""
