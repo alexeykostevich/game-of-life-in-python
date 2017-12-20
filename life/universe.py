@@ -25,7 +25,7 @@ class Universe(Generic[T]):
         pass
 
     @abstractmethod
-    def empty(self) -> 'Universe[T]':
+    def empty_copy(self) -> 'Universe[T]':
         """Returns a new empty universe of the same dimensions."""
         pass
 

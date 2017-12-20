@@ -22,6 +22,6 @@ class WrappedUniverse(BaseUniverse[T]):
         """Always returns true since edges of the universe wrap around."""
         return True
 
-    def empty(self) -> 'WrappedUniverse[T]':
+    def empty_copy(self) -> 'WrappedUniverse[T]':
         """Returns an empty wrapped universe of the same dimensions."""
         return WrappedUniverse(self.width, self.height)

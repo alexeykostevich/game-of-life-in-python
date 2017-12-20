@@ -28,13 +28,13 @@ class ClosedUniverseTestCase(unittest.TestCase):
 
         self.assertEqual(universe.height, 2)
 
-    def test_empty(self):
+    def test_empty_copy(self):
         universe = ClosedUniverse.from_data([
             [1, 2],
             [3, None]
         ])
 
-        empty_universe = universe.empty()
+        empty_universe = universe.empty_copy()
 
         self.assertEqual(empty_universe.width, universe.width)
         self.assertEqual(empty_universe.height, universe.height)

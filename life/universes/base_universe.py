@@ -17,17 +17,17 @@ class BaseUniverse(Universe[T]):
         if height <= 0:
             raise ValueError('height is zero or a negative number.')
 
-        self._data = [[None] * height for x in range(width)]
+        self._data = [[None] * width for _ in range(height)]
 
     @property
     def width(self) -> int:
         """Returns universe width."""
-        return len(self._data)
+        return len(self._data[0])
 
     @property
     def height(self) -> int:
         """Returns universe height."""
-        return len(self._data[0])
+        return len(self._data)
 
     @abstractmethod
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
@@ -40,7 +40,7 @@ class BaseUniverse(Universe[T]):
         pass
 
     @abstractmethod
-    def empty(self) -> 'Universe[T]':
+    def empty_copy(self) -> 'Universe[T]':
         """Returns an empty universe of the same dimensions."""
         pass
 
@@ -68,7 +68,7 @@ class BaseUniverse(Universe[T]):
         """Returns a value for the specified position using self[x, y]."""
         x, y = self.adjust_position(*position)
 
-        item = self._data[x][y]
+        item = self._data[y][x]
 
         return item
 
@@ -76,14 +76,12 @@ class BaseUniverse(Universe[T]):
         """Sets the value for the specified position using self[x, y]."""
         x, y = self.adjust_position(*position)
 
-        self._data[x][y] = value
+        self._data[y][x] = value
 
     def __str__(self) -> str:
         """Returns a string representation of the universe."""
-        def to_str(i): return str(i or ' ')
-
-        rows = ((to_str(self[x, y]) for x in range(self.width))
-                                    for y in range(self.height))
+        rows = ((str(item or ' ') for item in row)
+                                  for row in self._data)
 
         result = '\n'.join((' '.join(row) for row in rows))
 
