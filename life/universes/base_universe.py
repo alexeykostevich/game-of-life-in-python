@@ -7,12 +7,7 @@ T = TypeVar('T')
 
 
 class BaseUniverse(Universe[T]):
-    """
-    Represents a base class for universes for 'The Game of Life'.
-    The base universe is memory-efficient since it represents a sparse grid.
-    So, it holds memory only for occuppied cells.
-    """
-
+    """Represents a base class for universes for 'The Game of Life'."""
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int):
@@ -22,19 +17,17 @@ class BaseUniverse(Universe[T]):
         if height <= 0:
             raise ValueError('height is zero or a negative number.')
 
-        self._width = width
-        self._height = height
-        self._data = dict()
+        self._data = [[None] * height for x in range(width)]
 
     @property
     def width(self) -> int:
         """Returns universe width."""
-        return self._width
+        return len(self._data)
 
     @property
     def height(self) -> int:
         """Returns universe height."""
-        return self._height
+        return len(self._data[0])
 
     @abstractmethod
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
@@ -73,20 +66,17 @@ class BaseUniverse(Universe[T]):
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
-        adjusted_position = self.adjust_position(*position)
-        item = self._data.get(adjusted_position, None)
+        x, y = self.adjust_position(*position)
+
+        item = self._data[x][y]
 
         return item
 
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
-        adjusted_position = self.adjust_position(*position)
+        x, y = self.adjust_position(*position)
 
-        if value is None:
-            self._data.pop(adjusted_position, None)
-            return
-
-        self._data[adjusted_position] = value
+        self._data[x][y] = value
 
     def __str__(self) -> str:
         """Returns a string representation of the universe."""
@@ -101,7 +91,7 @@ class BaseUniverse(Universe[T]):
 
     def __eq__(self, other: 'BaseUniverse[T]') -> bool:
         """Indicates whether the universe equals to another universe."""
-        eq = self._data.items() == other._data.items()
+        eq = self._data == other._data
 
         return eq
 
