@@ -7,7 +7,10 @@ T = TypeVar('T')
 
 
 class BaseUniverse(Universe[T]):
-    """Represents a base class for universes of 'The Game of Life'."""
+    """
+    Represents a base class for universes of 'The Game of Life'.
+    The base universe represents a sparse grid that holds memory only for occuppied cells.
+    """
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int):
@@ -17,17 +20,19 @@ class BaseUniverse(Universe[T]):
         if height <= 0:
             raise ValueError('height is zero or a negative number.')
 
-        self._data = [[None] * width for _ in range(height)]
+        self._width = width
+        self._height = height
+        self._data = dict()
 
     @property
     def width(self) -> int:
         """Returns universe width."""
-        return len(self._data[0])
+        return self._width
 
     @property
     def height(self) -> int:
         """Returns universe height."""
-        return len(self._data)
+        return self._height
 
     @abstractmethod
     def adjust_position(self, x: int, y: int) -> Tuple[int, int]:
@@ -66,22 +71,27 @@ class BaseUniverse(Universe[T]):
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
-        x, y = self.adjust_position(*position)
-
-        item = self._data[y][x]
+        adjusted_position = self.adjust_position(*position)
+        item = self._data.get(adjusted_position, None)
 
         return item
 
     def __setitem__(self, position: Tuple[int, int], value: T):
         """Sets the value for the specified position using self[x, y]."""
-        x, y = self.adjust_position(*position)
+        adjusted_position = self.adjust_position(*position)
 
-        self._data[y][x] = value
+        if value is None:
+            self._data.pop(adjusted_position, None)
+            return
+
+        self._data[adjusted_position] = value
 
     def __str__(self) -> str:
         """Returns a string representation of the universe."""
-        rows = ((str(item or ' ') for item in row)
-                                  for row in self._data)
+        def to_str(i): return str(i or ' ')
+
+        rows = ((to_str(self[x, y]) for x in range(self.width))
+                                    for y in range(self.height))
 
         result = '\n'.join((' '.join(row) for row in rows))
 
@@ -89,7 +99,7 @@ class BaseUniverse(Universe[T]):
 
     def __eq__(self, other: 'BaseUniverse[T]') -> bool:
         """Indicates whether the universe equals to another universe."""
-        eq = self._data == other._data
+        eq = self._data.items() == other._data.items()
 
         return eq
 
