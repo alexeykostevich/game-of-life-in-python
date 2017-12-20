@@ -28,13 +28,13 @@ class ClosedUniverseTestCase(unittest.TestCase):
 
         self.assertEqual(universe.height, 2)
 
-    def test_empty(self):
+    def test_empty_copy(self):
         universe = ClosedUniverse.from_data([
             [1, 2],
             [3, None]
         ])
 
-        empty_universe = universe.empty()
+        empty_universe = universe.empty_copy()
 
         self.assertEqual(empty_universe.width, universe.width)
         self.assertEqual(empty_universe.height, universe.height)
@@ -117,20 +117,20 @@ class ClosedUniverseTestCase(unittest.TestCase):
         universe[0, 0] = 1
         self.assertEqual(universe[0, 0], 1)
 
-        universe[1, 1] = 2
-        self.assertEqual(universe[1, 1], 2)
+        universe[0, 0] = None
+        self.assertEqual(universe[0, 0], None)
 
         with self.assertRaises(IndexError):
-            universe[-1, 0] = 3
+            universe[-1, 0] = 2
 
         with self.assertRaises(IndexError):
-            universe[2, 0] = 4
+            universe[2, 0] = 3
 
         with self.assertRaises(IndexError):
-            universe[0, -1] = 5
+            universe[0, -1] = 4
 
         with self.assertRaises(IndexError):
-            universe[0, 2] = 6
+            universe[0, 2] = 5
 
     def test_str(self):
         universe = ClosedUniverse.from_data([

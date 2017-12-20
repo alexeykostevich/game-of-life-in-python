@@ -8,11 +8,9 @@ T = TypeVar('T')
 
 class BaseUniverse(Universe[T]):
     """
-    Represents a base class for universes for 'The Game of Life'.
-    The base universe is memory-efficient since it represents a sparse grid.
-    So, it holds memory only for occuppied cells.
+    Represents a base class for universes of 'The Game of Life'.
+    The base universe represents a sparse grid that holds memory only for occuppied cells.
     """
-
     __metaclass__ = ABCMeta
 
     def __init__(self, width: int, height: int):
@@ -47,7 +45,7 @@ class BaseUniverse(Universe[T]):
         pass
 
     @abstractmethod
-    def empty(self) -> 'Universe[T]':
+    def empty_copy(self) -> 'Universe[T]':
         """Returns an empty universe of the same dimensions."""
         pass
 
@@ -83,6 +81,7 @@ class BaseUniverse(Universe[T]):
         adjusted_position = self.adjust_position(*position)
 
         if value is None:
+            self._data.pop(adjusted_position, None)
             return
 
         self._data[adjusted_position] = value

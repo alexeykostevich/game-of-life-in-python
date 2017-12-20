@@ -8,7 +8,7 @@ def originate_from(universe: Universe[Any], regenerate: Callable[[], Any]) -> Ge
     The function can handle any universe-like object of any cells. Any cell except of 'None' is considered as alive.
     """
     while True:
-        next_universe = universe.empty()
+        next_universe = universe.empty_copy()
 
         for x, y in universe.through():
             cell = universe[x, y]

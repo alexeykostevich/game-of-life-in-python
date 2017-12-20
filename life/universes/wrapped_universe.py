@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 class WrappedUniverse(BaseUniverse[T]):
     """
-    Represents the wrapped universe for 'The Game of Life'.
+    Represents the wrapped universe of 'The Game of Life'.
     The edges of the universe wrap around, so that the top is connected to the bottom,
     and the right is connected to the left.
     """
@@ -22,6 +22,6 @@ class WrappedUniverse(BaseUniverse[T]):
         """Always returns true since edges of the universe wrap around."""
         return True
 
-    def empty(self) -> 'WrappedUniverse[T]':
+    def empty_copy(self) -> 'WrappedUniverse[T]':
         """Returns an empty wrapped universe of the same dimensions."""
         return WrappedUniverse(self.width, self.height)
