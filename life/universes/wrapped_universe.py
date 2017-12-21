@@ -1,5 +1,5 @@
 from typing import TypeVar, Tuple
-from life.universes.base_universe import BaseUniverse
+from ..universes.base_universe import BaseUniverse
 
 
 T = TypeVar('T')

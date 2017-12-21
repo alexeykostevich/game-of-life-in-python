@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Iterable, List, TypeVar, Tuple
-from life.universe import Universe
+from ..universe import Universe
 
 
 T = TypeVar('T')

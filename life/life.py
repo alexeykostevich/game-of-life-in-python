@@ -1,5 +1,5 @@
 from typing import Any, Callable, Iterable, Generator
-from life.universe import Universe
+from .universe import Universe
 
 
 def originate_from(universe: Universe[Any], regenerate: Callable[[], Any]) -> Generator[Universe[Any], None, None]:
