@@ -3,6 +3,7 @@ from typing import Generic, Iterable, TypeVar, Tuple
 
 
 T = TypeVar('T')
+UniverseType = TypeVar('UniverseType', bound='Universe[T]')
 
 
 class Universe(Generic[T]):
@@ -25,13 +26,13 @@ class Universe(Generic[T]):
         pass
 
     @abstractmethod
-    def empty_copy(self) -> 'Universe[T]':
-        """Returns a new empty universe of the same dimensions."""
+    def neighbours_of(self, x: int, y: int) -> Iterable[T]:
+        """Returns a new iterator that can iterate over neighbours around the specified position."""
         pass
 
     @abstractmethod
-    def neighbours_of(self, x: int, y: int) -> Iterable[T]:
-        """Returns a new iterator that can iterate over neighbours around the specified position."""
+    def __copy__(self) -> UniverseType:
+        """Returns a shallow copy of the universe."""
         pass
 
     @abstractmethod

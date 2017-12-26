@@ -23,7 +23,3 @@ class ClosedUniverse(BaseUniverse[T]):
         is_in_range = 0 <= x < self.width and 0 <= y < self.height
 
         return is_in_range
-
-    def empty_copy(self) -> 'ClosedUniverse[T]':
-        """Returns an empty closed universe of the same dimensions."""
-        return ClosedUniverse(self.width, self.height)

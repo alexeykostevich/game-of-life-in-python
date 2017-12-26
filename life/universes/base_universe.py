@@ -4,6 +4,7 @@ from ..universe import Universe
 
 
 T = TypeVar('T')
+BaseUniverseType = TypeVar('BaseUniverseType', bound='BaseUniverse[T]')
 
 
 class BaseUniverse(Universe[T]):
@@ -44,11 +45,6 @@ class BaseUniverse(Universe[T]):
         """Indicates whether the specified position is within the universe boundaries."""
         pass
 
-    @abstractmethod
-    def empty_copy(self) -> 'Universe[T]':
-        """Returns an empty universe of the same dimensions."""
-        pass
-
     def through(self) -> Tuple[int, int]:
         """Returns a new iterator that can iterate over universe positions."""
         return ((x, y) for y in range(self.height)
@@ -68,6 +64,14 @@ class BaseUniverse(Universe[T]):
         ]
 
         return (self[position] for position in positions if self.is_position_in_range(*position))
+
+    def __copy__(self) -> BaseUniverseType:
+        """Returns a shallow copy of the universe."""
+        copy = type(self)(self.width, self.height)
+
+        copy._data = self._data.copy()
+
+        return copy
 
     def __getitem__(self, position: Tuple[int, int]) -> T:
         """Returns a value for the specified position using self[x, y]."""
@@ -104,7 +108,7 @@ class BaseUniverse(Universe[T]):
         return eq
 
     @classmethod
-    def from_data(cls, data: List[List[T]], is_cell: Callable[[T], bool]=lambda cell: cell) -> 'Universe[T]':
+    def from_data(cls, data: List[List[T]], is_cell: Callable[[T], bool]=lambda cell: cell) -> BaseUniverseType:
         """
         Creates a universe from a 2-deminsiomal list.
         By default, create cells only for values which boolean is True.
@@ -119,7 +123,7 @@ class BaseUniverse(Universe[T]):
         return universe
 
     @classmethod
-    def random(cls, width: int, height: int, get_random: Callable[[], T]) -> 'Universe[T]':
+    def random(cls, width: int, height: int, get_random: Callable[[], T]) -> BaseUniverseType:
         """Creates a random universe of the specified dimensions."""
         universe = cls(width, height)
 
