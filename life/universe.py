@@ -3,6 +3,7 @@ from typing import Generic, Iterable, TypeVar, Tuple
 
 
 T = TypeVar('T')
+UniverseType = TypeVar('UniverseType', bound='Universe[T]')
 
 
 class Universe(Generic[T]):
@@ -25,7 +26,7 @@ class Universe(Generic[T]):
         pass
 
     @abstractmethod
-    def empty_copy(self) -> 'Universe[T]':
+    def empty_copy(self) -> UniverseType:
         """Returns a new empty universe of the same dimensions."""
         pass
 

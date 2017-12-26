@@ -1,4 +1,8 @@
 import random
+from typing import TypeVar
+
+
+CellType = TypeVar('CellType', bound='Cell')
 
 
 class Cell(object):
@@ -9,7 +13,7 @@ class Cell(object):
         return '*'
 
     @classmethod
-    def likely(cls) -> 'Cell':
+    def likely(cls) -> CellType:
         """Randomly creates a new cell or nothing."""
         possible_cell = random.choice([cls(), None])
 
