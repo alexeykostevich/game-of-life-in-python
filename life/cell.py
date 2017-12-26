@@ -5,7 +5,7 @@ from typing import TypeVar
 CellType = TypeVar('CellType', bound='Cell')
 
 
-class Cell(object):
+class Cell():
     """Represents a cell of 'The Game of Life'."""
 
     def __str__(self) -> str:
