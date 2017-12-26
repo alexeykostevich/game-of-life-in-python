@@ -1,9 +1,9 @@
-import unittest
 from copy import copy
+from unittest import TestCase
 from life import ClosedUniverse
 
 
-class ClosedUniverseTestCase(unittest.TestCase):
+class ClosedUniverseTestCase(TestCase):
     def test_init(self):
         with self.assertRaises(ValueError):
             ClosedUniverse(0, 1)

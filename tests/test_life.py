@@ -1,5 +1,5 @@
-import unittest
 from typing import List
+from unittest import TestCase
 from life import ClosedUniverse, live, originate_from
 
 
@@ -7,7 +7,7 @@ def neibours(count: int) -> List[bool]:
     return [1] * count + [None] * (8 - count)
 
 
-class LifeTestCase(unittest.TestCase):
+class LifeTestCase(TestCase):
     def test_live_cell_remains_dead(self):
         for alive in range(3):
             next_cell = live(None, neibours(alive), lambda: 1)

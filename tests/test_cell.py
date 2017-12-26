@@ -1,8 +1,8 @@
-import unittest
+from unittest import TestCase
 from life import Cell
 
 
-class CellTestCase(unittest.TestCase):
+class CellTestCase(TestCase):
     def test_str(self):
         cell = Cell()
 

@@ -1,9 +1,9 @@
-import unittest
 from copy import copy
+from unittest import TestCase
 from life import WrappedUniverse
 
 
-class WrappedUniverseTestCase(unittest.TestCase):
+class WrappedUniverseTestCase(TestCase):
     def test_init(self):
         with self.assertRaises(ValueError):
             WrappedUniverse(0, 1)
