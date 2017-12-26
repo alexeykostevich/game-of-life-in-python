@@ -3,7 +3,6 @@ from ..universes.base_universe import BaseUniverse
 
 
 T = TypeVar('T')
-WrappedUniverseType = TypeVar('WrappedUniverseType', bound='WrappedUniverse[T]')
 
 
 class WrappedUniverse(BaseUniverse[T]):
@@ -22,7 +21,3 @@ class WrappedUniverse(BaseUniverse[T]):
     def is_position_in_range(self, x: int, y: int) -> bool:
         """Always returns true since edges of the universe wrap around."""
         return True
-
-    def empty_copy(self) -> WrappedUniverseType:
-        """Returns an empty wrapped universe of the same dimensions."""
-        return WrappedUniverse(self.width, self.height)

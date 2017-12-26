@@ -1,4 +1,5 @@
 import unittest
+from copy import copy
 from life import ClosedUniverse
 
 
@@ -27,21 +28,6 @@ class ClosedUniverseTestCase(unittest.TestCase):
         universe = ClosedUniverse(1, 2)
 
         self.assertEqual(universe.height, 2)
-
-    def test_empty_copy(self):
-        universe = ClosedUniverse.from_data([
-            [1, 2],
-            [3, None]
-        ])
-
-        empty_universe = universe.empty_copy()
-
-        self.assertEqual(empty_universe.width, universe.width)
-        self.assertEqual(empty_universe.height, universe.height)
-
-        all_empty = all(empty_universe[position] is None for position in empty_universe.through())
-
-        self.assertTrue(all_empty)
 
     def test_through(self):
         universe = ClosedUniverse(2, 2)
@@ -89,6 +75,19 @@ class ClosedUniverseTestCase(unittest.TestCase):
         self.assertFalse(universe.is_position_in_range(0, -1))
         self.assertFalse(universe.is_position_in_range(0, 2))
         self.assertTrue(universe.is_position_in_range(0, 0))
+
+    def test_copy(self):
+        universe = ClosedUniverse.from_data([
+            [1, 2],
+            [3, list()]
+        ])
+
+        universe_copy = copy(universe)
+
+        self.assertEqual(universe_copy.width, universe.width)
+        self.assertEqual(universe_copy.height, universe.height)
+        self.assertEqual(universe_copy, universe)
+        self.assertIs(universe_copy[1, 1], universe[1, 1])
 
     def test_get_item(self):
         universe = ClosedUniverse.from_data([
