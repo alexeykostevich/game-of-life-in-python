@@ -41,7 +41,7 @@ for universe in life:
 
 ```bash
 # Simulate a random 'The Game of Life' in a Posix-compatible terminal
-$ python3 main.py
+python3 main.py
 ```
 
 ## Technology Stack
@@ -55,16 +55,15 @@ $ python3 main.py
 1. [Python 3.6](https://www.python.org/downloads/)
 
 ### Quickstart
-1. [Creates and activates](https://docs.python.org/3/library/venv.html) a Python virtual environment
 
 ```bash
-$ python3 -m venv .venv
-$ . .venv/bin/activate
-```
+# Create a Python virtual environment
+python3 -m venv .venv
 
-2. Install dependencies
+# Activate a Python virtual environment
+.venv/bin/activate
 
-```bash
+# Install the dependencies
 $ pip install -r requirements.txt
 ```
 
@@ -72,12 +71,14 @@ $ pip install -r requirements.txt
 Use [test discovery](https://docs.python.org/3/library/unittest.html#test-discovery) to run all unit tests at once.
 
 ```bash
-$ python -m unittest discover
+Run tests
+python -m unittest discover
 ```
 
 ### Styleguide
 The project uses [PEP8](https://www.python.org/dev/peps/pep-0008/). [Flake8](http://flake8.pycqa.org/en/latest/) is setup to enforce the rules.
 
 ```bash
-$ flake8
+Run flake8
+flake8
 ```
